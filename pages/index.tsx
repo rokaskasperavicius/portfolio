@@ -8,7 +8,7 @@ const Home: NextPage = () => {
       <div className="flex justify-around pt-8">
         <div className="flex justify-center text-2xl flex-col">
           <div>I am Rokas,</div>
-          <div className="text-[#ff5208]">Student front-end developer</div>
+          <div className="text-[#ff5208]">student front-end developer</div>
           <div>
             with <span className="text-[#ff5208]">3+ years </span> of work
             experience.
