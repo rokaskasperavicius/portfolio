@@ -5,6 +5,27 @@
   flex-direction: column;
 }
 
+.link {
+  position: relative;
+  overflow: hidden;
+}
+
+.link:hover::after {
+  transform: translateX(0);
+}
+
+.link::after {
+  content: "";
+  display: block;
+  width: 100%;
+  bottom: 0;
+  height: 1px;
+  background-color: black;
+  position: absolute;
+  transform: translateX(-100%);
+  transition: transform ease-in-out 0.1s;
+}
+
 .footer {
   height: 60px;
   border-top: 1px solid #eaeaea;

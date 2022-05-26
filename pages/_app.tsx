@@ -17,9 +17,15 @@ function MyApp({ Component, pageProps, router }: AppProps) {
 
       <header className="p-4 flex justify-end border-b border-gray-200">
         <div className="flex gap-3">
-          <Link href="/">Home</Link>
-          <Link href="/projects">Projects</Link>
-          <Link href="/about">About</Link>
+          <Link href="/">
+            <a className={styles.link}>Home</a>
+          </Link>
+          <Link href="/projects">
+            <a className={styles.link}>Projects</a>
+          </Link>
+          <Link href="/about">
+            <a className={styles.link}>About</a>
+          </Link>
         </div>
       </header>
       <motion.div
