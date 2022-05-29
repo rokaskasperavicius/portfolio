@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import { useEffect } from "react";
 import { Image } from "react-datocms";
 import styles from "../styles/Home.module.css";
 
@@ -22,20 +23,34 @@ export function request({ query, variables, preview }: Props) {
   return client.request(query, variables);
 }
 
-const Home = ({ data }: { data: any }) => {
+const Home = ({ data, y }: { data: any; y: any }) => {
+  useEffect(() => {
+    var myDiv = document.getElementById("myId");
+    var test = document.getElementById("test");
+
+    if (myDiv && test) {
+      myDiv.setAttribute("style", `opacity: ${1 - y / 384}`);
+      test.setAttribute("style", `opacity: ${y / 384}`);
+    }
+  }, [y]);
+
   return (
-    <main className={styles.main}>
-      <div className="flex justify-around pt-8">
-        <div className="flex justify-center text-2xl flex-col">
-          <div>I am Rokas,</div>
-          <div className="text-[#ff5208]">student front-end developer</div>
-          <div>
-            with <span className="text-[#ff5208]">3+ years </span> of work
-            experience.
+    <>
+      <main className={`h-[200vh]`}>
+        <div
+          id="myId"
+          className="flex justify-around pt-8 absolute top-[57px] z-[-1] left-[50%] w-full -translate-x-1/2"
+        >
+          <div className="flex justify-center text-2xl flex-col">
+            <div>I am Rokas,</div>
+            <div className="text-[#ff5208]">student front-end developer</div>
+            <div>
+              with <span className="text-[#ff5208]">3+ years </span> of work
+              experience.
+            </div>
           </div>
-        </div>
-        <div className="rounded-3xl border-black overflow-hidden">
           <Image
+            className="rounded-[5px] border-2 border-black "
             data={data.upload.responsiveImage}
             // src="/hero.jpg"
             // alt="Vercel Logo"
@@ -43,8 +58,31 @@ const Home = ({ data }: { data: any }) => {
             // objectFit="contain"
           />
         </div>
-      </div>
-    </main>
+        <div
+          id="test"
+          className="flex gap-[70px] pl-[20px] justify-around pt-8 absolute top-[57px] h-[531px] items-center z-[-1] left-[50%] w-full -translate-x-1/2"
+        >
+          <div className="flex justify-center text-xl flex-col">
+            &lt;p&gt;I am Rokas,&lt;/p&gt;
+            <br />
+            &lt;p className="color-orange"&gt;student front-end
+            developer&lt;/p&gt;
+            <br />
+            &lt;p&gt;with &lt;span&gt; className="color-orange"&gt; 3+ years
+            &lt;/span&gt; of work experience.&lt;/p&gt;
+          </div>
+          <div className="text-xl">
+            &lt;img
+            <br />
+            &nbsp;alt="Portrait photo"
+            <br />
+            &nbsp;className="hero-image"
+            <br />
+            /&gt;
+          </div>
+        </div>
+      </main>
+    </>
   );
 };
 

@@ -5,8 +5,17 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
+import { useScroll } from "react-use";
+import React from "react";
 
 function MyApp({ Component, pageProps, router }: AppProps) {
+  const scrollRef = React.useRef(null);
+  const { x, y } = useScroll(scrollRef);
+
+  pageProps = {
+    ...pageProps,
+    y: y + 1,
+  };
   return (
     <div className={styles.container}>
       <Head>
@@ -29,7 +38,8 @@ function MyApp({ Component, pageProps, router }: AppProps) {
         </div>
       </header>
       <motion.div
-        className="flex-1"
+        ref={scrollRef}
+        className="h-[100vh] overflow-y-scroll"
         key={router.route}
         initial="initial"
         animate="animate"

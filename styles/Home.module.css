@@ -1,8 +1,16 @@
 .container {
   padding: 0 2rem;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+.container > div::-webkit-scrollbar {
+  //width: 0 !important;
+}
+
+.main {
+  height: 200vh;
 }
 
 .link {
@@ -23,7 +31,7 @@
   background-color: black;
   position: absolute;
   transform: translateX(-100%);
-  transition: transform ease-in-out 0.1s;
+  transition: transform ease-in-out 0.3s;
 }
 
 .footer {
