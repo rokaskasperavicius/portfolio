@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import LinkedInIcon from "../assets/linkedin.svg";
 import FacebookIcon from "../assets/facebook.svg";
 import InstagramIcon from "../assets/instagram.svg";
+import GithubIcon from "../assets/github.svg";
 console.log(LinkedInIcon);
 type Props = {
   query: any;
@@ -121,6 +122,25 @@ const Home = ({ data }: { data: any }) => {
                     height={40}
                     width={40}
                     src={LinkedInIcon}
+                  />
+                </a>
+              </motion.div>
+              <motion.div
+                whileHover={{
+                  scale: 1.2,
+                }}
+              >
+                <a
+                  href="https://github.com/rokaskasperavicius"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex"
+                >
+                  <NextImage
+                    className="cursor-pointer"
+                    height={40}
+                    width={40}
+                    src={GithubIcon}
                   />
                 </a>
               </motion.div>
