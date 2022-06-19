@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { Image } from "react-datocms";
+import { Image, ResponsiveImageType } from "react-datocms";
 import styles from "../styles/Home.module.css";
 import { motion, useAnimation } from "framer-motion";
 import NextImage from "next/image";
@@ -13,6 +13,7 @@ import FacebookIcon from "../assets/facebook.svg";
 import InstagramIcon from "../assets/instagram.svg";
 import GithubIcon from "../assets/github.svg";
 import RightArrowIcon from "../assets/arrow-right.svg";
+import Rokas from "../assets/rokas.jpg";
 
 import { useInView } from "react-intersection-observer";
 
@@ -318,8 +319,25 @@ const Home = ({ data }: { data: any }) => {
               </motion.div>
             </div>
           </div>
-          <div id="a" className="rounded-3xl border-black overflow-hidden">
-            <Image data={data.upload.responsiveImage} />
+          <div
+            id="a"
+            // className="rounded-3xl relative border-black overflow-hidden"
+          >
+            <Image
+              usePlaceholder={false}
+              // fadeInDuration={10000}
+              // className="rounded-3xl relative border-black overflow-hidden"
+              data={data.upload.responsiveImage}
+              pictureClassName="rounded-3xl"
+            />
+            {
+              // <NextImage
+              //   src={Rokas}
+              //   width={500}
+              //   height={600}
+              //   className="rounded-3xl"
+              // />
+            }
           </div>
         </div>
       </div>
