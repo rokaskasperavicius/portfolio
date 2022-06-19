@@ -405,7 +405,7 @@ const Home = ({ data }: { data: any }) => {
                 </div>
               </div>
             </h2>
-            <div className="relative h-[300px] overflow-y-scroll mt-4">
+            <div className="relative h-[300px] overflow-y-scroll overflow-x-hidden mt-4">
               <motion.p className="absolute" animate={leftControl}>
                 WORK Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                 Etiam ac purus id turpis rutrum posuere. Duis finibus purus ac
