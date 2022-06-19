@@ -114,7 +114,7 @@ const Home = ({ data }: { data: any }) => {
 
     const left = (b ? b.left : 0) - 50;
 
-    const test = [];
+    const test = [] as any;
 
     function getRandomInt(max: number) {
       return Math.floor(Math.random() * max);
@@ -130,7 +130,7 @@ const Home = ({ data }: { data: any }) => {
       do {
         x = getRandomInt(xIndex);
         y = getRandomInt(yIndex);
-      } while (test.filter((a) => a.x === x && a.y === y).length > 0);
+      } while (test.filter((a: any) => a.x === x && a.y === y).length > 0);
 
       test.push({ x, y });
     });
@@ -157,8 +157,8 @@ const Home = ({ data }: { data: any }) => {
                         animate={{ y: [0, 10, 0] }}
                         transition={{ repeat: Infinity, duration: 5 }}
                         style={{
-                          top: coords[index].y * 50 + middle,
-                          left: coords[index].x * 60 + 70,
+                          top: (coords[index] as any).y * 50 + middle,
+                          left: (coords[index] as any).x * 60 + 70,
                         }}
                       >
                         {e}
@@ -422,8 +422,8 @@ const Home = ({ data }: { data: any }) => {
         <div className="text-xl mt-8 flex justify-center gap-20">
           <div className="relative after:absolute after:h-full after:top-0 after:right-[-40px] after:rotate-12 after:w-[1px] after:bg-gray-300">
             <p>
-              Have any <span className="text-[#ff5208]">questions</span>? Don't
-              be scared to say Hi 👋
+              Have any <span className="text-[#ff5208]">questions</span>?
+              Don&#39;t be scared to say Hi 👋
             </p>
             <Link href="/email">
               <a className="flex gap-3 cursor-pointer">
