@@ -116,7 +116,7 @@ const Home = ({ data }: { data: any }) => {
     setMiddle(topBottom);
     const top = topBottom;
 
-    const left = b ? b.left : 0;
+    const left = (b ? b.left : 0) - 75;
 
     const test = [] as any;
 
@@ -124,9 +124,10 @@ const Home = ({ data }: { data: any }) => {
       return Math.floor(Math.random() * max);
     }
 
-    const yIndex = Math.floor(top / 50);
-    const xIndex = Math.floor(left / 60);
+    const yIndex = Math.ceil(top / 50);
+    const xIndex = Math.ceil(left / 75);
 
+    console.log(xIndex);
     console.log(left);
 
     exp.forEach((e) => {
@@ -177,9 +178,7 @@ const Home = ({ data }: { data: any }) => {
                             middle / 2 +
                             getRandomInt(0, 11),
                           left:
-                            (coords[index] as any).x * 60 +
-                            10 +
-                            getRandomInt(0, 11),
+                            (coords[index] as any).x * 75 + getRandomInt(0, 10),
                         }}
                       >
                         {e}
