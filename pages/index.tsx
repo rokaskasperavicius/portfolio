@@ -105,14 +105,18 @@ const Home = ({ data }: { data: any }) => {
         x: -400,
       }));
     }
+  }, [view, leftControl, rightControl]);
+  console.log(coords);
+
+  useEffect(() => {
     const a = document.getElementById("test")?.getBoundingClientRect();
     const b = document.getElementById("a")?.getBoundingClientRect();
 
     const topBottom = a ? a.top - 40 : 0;
     setMiddle(topBottom);
-    const top = topBottom - 70;
+    const top = topBottom;
 
-    const left = (b ? b.left : 0) - 50;
+    const left = b ? b.left : 0;
 
     const test = [] as any;
 
@@ -121,7 +125,9 @@ const Home = ({ data }: { data: any }) => {
     }
 
     const yIndex = Math.floor(top / 50);
-    const xIndex = Math.floor(left / 80);
+    const xIndex = Math.floor(left / 60);
+
+    console.log(left);
 
     exp.forEach((e) => {
       let x = -1;
@@ -135,12 +141,18 @@ const Home = ({ data }: { data: any }) => {
       test.push({ x, y });
     });
     setCoords(test);
+  }, []);
 
-    console.log();
-  }, [view, leftControl, rightControl]);
+  function getRandomInt(min: any, max: any) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  // console.log(getRandomInt(-5, 5));
 
   return (
-    <main>
+    <main className="relative">
       <div className="h-[calc(100vh-57px)] flex flex-col justify-center">
         <div className="flex justify-around">
           <div className="flex justify-between text-3xl flex-col">
@@ -148,17 +160,26 @@ const Home = ({ data }: { data: any }) => {
               {coords.length > 0 &&
                 middle !== 0 &&
                 exp.map((e, index) => {
-                  console.log(coords);
                   return (
                     <>
                       <motion.span
                         key={e}
                         className="absolute text-gray-200 z-[-1]"
                         animate={{ y: [0, 10, 0] }}
-                        transition={{ repeat: Infinity, duration: 5 }}
+                        transition={{
+                          repeat: Infinity,
+                          duration: getRandomInt(4, 7),
+                          delay: getRandomInt(0, 3),
+                        }}
                         style={{
-                          top: (coords[index] as any).y * 50 + middle,
-                          left: (coords[index] as any).x * 60 + 70,
+                          top:
+                            (coords[index] as any).y * 50 +
+                            middle / 2 +
+                            getRandomInt(0, 11),
+                          left:
+                            (coords[index] as any).x * 60 +
+                            10 +
+                            getRandomInt(0, 11),
                         }}
                       >
                         {e}
