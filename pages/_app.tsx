@@ -15,16 +15,34 @@ function MyApp({ Component, pageProps, router }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header className="p-4 flex justify-end border-b border-gray-200">
+      <header className="transition p-4 relative flex justify-end after:absolute after:bottom-0 after:left-0 after:h-[1px] after:bg-gray-300">
         <div className="flex gap-3">
           <Link href="/">
-            <a className={styles.link}>Home</a>
+            <motion.a
+              className={styles.link}
+              animate={{ y: [-20, 0], opacity: [0, 1] }}
+              transition={{ delay: 1 }}
+            >
+              Home
+            </motion.a>
           </Link>
           <Link href="/projects">
-            <a className={styles.link}>Projects</a>
+            <motion.a
+              className={styles.link}
+              animate={{ y: [-20, 0], opacity: [0, 1] }}
+              transition={{ delay: 1.5 }}
+            >
+              Projects
+            </motion.a>
           </Link>
-          <Link href="/about">
-            <a className={styles.link}>About</a>
+          <Link href="/email">
+            <motion.a
+              className={styles.link}
+              animate={{ y: [-20, 0], opacity: [0, 1] }}
+              transition={{ delay: 2 }}
+            >
+              Say Hi
+            </motion.a>
           </Link>
         </div>
       </header>
@@ -51,7 +69,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
       </motion.div>
 
       <footer className={styles.footer}>
-        <a
+        {/* <a
           href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
           target="_blank"
           rel="noopener noreferrer"
@@ -60,7 +78,8 @@ function MyApp({ Component, pageProps, router }: AppProps) {
           <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
-        </a>
+        </a> */}
+        &copy; 2022. All Rights Reserved.
       </footer>
     </div>
   );
