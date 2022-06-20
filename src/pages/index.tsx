@@ -549,7 +549,6 @@ const Home = ({ data }: { data: any }) => {
                 dragSnapToOrigin={true}
                 dragConstraints={{ left: 0, right: 500 }}
                 onDragEnd={(event, info) => {
-                  console.log(info);
                   if (
                     info.offset.x * info.velocity.x > 10000 &&
                     info.offset.x > 0
