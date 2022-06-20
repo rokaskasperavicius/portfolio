@@ -33,11 +33,14 @@ const exp = [
   "Node.js",
   "Express.js",
   "PostgreSQL",
-  "MYSql",
+  "SQLite",
   "Java",
   "F#",
   "C#",
   "Python",
+  "C++",
+  "DatoCMS",
+  "Postico",
 ];
 
 type ExpOption = {
@@ -114,7 +117,7 @@ const Home = ({ data }: { data: any }) => {
         const textRect = heroText.getBoundingClientRect();
         const imageRect = heroImage.getBoundingClientRect();
 
-        const xBound = imageRect.left - textRect.left - expWidth;
+        const xBound = imageRect.left - textRect.left - expWidth * 2;
         const left = 0;
 
         const yBound = heroText.clientHeight + yPadding;
@@ -387,11 +390,14 @@ const Home = ({ data }: { data: any }) => {
               <li>Node.js</li>
               <li>Express.js</li>
               <li>PostgreSQL</li>
-              <li>MYSql</li>
+              <li>SQLite</li>
               <li>Java</li>
               <li>F#</li>
               <li>C#</li>
               <li>Python</li>
+              <li>C++</li>
+              <li>DatoCMS</li>
+              <li>Postico</li>
             </ul>
           </>
         </AnimatePresence>
