@@ -229,6 +229,7 @@ const Home = ({ data }: { data: any }) => {
             );
           })}
       </div>
+
       <div className="h-[calc(100vh-56px)] flex flex-col justify-center">
         <div className="flex flex-col-reverse lg:flex-row items-center lg:items-stretch justify-around lg:gap-6 gap-14 mt-[-80px] sm:mt-8 lg:mt-0">
           <div className="flex justify-between text-2xl sm:text-3xl flex-col sm:flex-row lg:flex-col gap-10 lg:gap-0 items-start sm:items-end lg:items-start">
@@ -240,10 +241,14 @@ const Home = ({ data }: { data: any }) => {
                   <div className="absolute top-0 left-0 word">motivated</div>
                   <div className="absolute top-0 left-0 word1">productive</div>
                   <div className="absolute top-0 left-0 word2">experienced</div>
-                  <div className="absolute top-0 left-0 word3">helpful</div>
+                  <div className="absolute top-0 left-0 word3">confident</div>
+                  <div className="absolute top-0 left-0 word4">consistent</div>
+                  <div className="absolute top-0 left-0 word5 w-[200px]">
+                    open-minded
+                  </div>
                 </div>
               </div>
-              <div className="text-[#ff5208]">student front-end developer</div>
+              <div className="text-[#ff5208]">front-end developer</div>
               <div>
                 with <span className="text-[#ff5208]">3+ years </span> of work
                 experience.
@@ -288,7 +293,7 @@ const Home = ({ data }: { data: any }) => {
                   />
                 </a>
               </motion.div>
-              <motion.div
+              {/* <motion.div
                 whileHover={{
                   scale: 1.2,
                 }}
@@ -325,7 +330,7 @@ const Home = ({ data }: { data: any }) => {
                     src={InstagramIcon}
                   />
                 </a>
-              </motion.div>
+              </motion.div> */}
             </div>
           </div>
           <div id="hero-image" className="hidden sm:block">
@@ -353,9 +358,9 @@ const Home = ({ data }: { data: any }) => {
           className="lg:w-2/3 sm:border sm:border-black sm:rounded-2xl sm:p-5 sm:shadow-right-full"
         >
           <>
-            <h2 className="text-2xl">About me</h2>
-            <p className="mt-4">
-              My full name is Rokas Kasperavicius. I am 21 year old lithuanian
+            <h2 className="sm:text-2xl text-xl">About me</h2>
+            <p className="sm:mt-4 mt-2">
+              My full name is Rokas Kasperavicius. I am 21 year old Lithuanian
               who is currently studying Computer Science & Mathematics Bachelor
               at{" "}
               <a
@@ -398,15 +403,15 @@ const Home = ({ data }: { data: any }) => {
         </AnimatePresence>
         <AnimatePresence
           position="right"
-          className="ml-auto mt-8 lg:w-2/3 sm:rounded-2xl sm:border sm:border-black sm:p-5 sm:shadow-right-full"
+          className="ml-auto mt-12 sm:mt-8 lg:w-2/3 sm:rounded-2xl sm:border sm:border-black sm:p-5 sm:shadow-right-full"
         >
           <>
             <h2 className="flex justify-between items-center">
-              <div className="text-2xl">My experience</div>
-              <div className="flex text-xl">
+              <div className="sm:text-2xl text-xl">My experience</div>
+              <div className="flex sm:text-xl">
                 <div
                   className={clsx(
-                    "cursor-pointer pr-2 pl-3 pt-[5px] rounded-tl-2xl rounded-bl-2xl",
+                    "cursor-pointer pr-2 pl-3 pt-[5px] sm:rounded-l-2xl rounded-l-md",
                     {
                       "text-white bg-black": view === "work",
                     }
@@ -417,7 +422,7 @@ const Home = ({ data }: { data: any }) => {
                 </div>
                 <div
                   className={clsx(
-                    "cursor-pointer pl-2 pr-3 pt-[5px] ml-[-1px] rounded-tr-2xl rounded-br-2xl",
+                    "cursor-pointer pl-2 pr-3 pt-[5px] ml-[-1px] sm:rounded-r-2xl rounded-r-md",
                     {
                       "text-white bg-black": view === "education",
                     }
@@ -428,7 +433,7 @@ const Home = ({ data }: { data: any }) => {
                 </div>
               </div>
             </h2>
-            <div className="relative h-[450px] sm:h-[300px] overflow-y-scroll overflow-x-hidden mt-4">
+            <div className="relative h-[400px] sm:h-[300px] overflow-y-scroll overflow-x-hidden mt-4">
               <motion.div
                 className="absolute w-full flex flex-col gap-y-8"
                 animate={leftControl}
@@ -456,15 +461,25 @@ const Home = ({ data }: { data: any }) => {
                 }}
               >
                 <div>
-                  <h4 className="w-full flex gap-4 justify-between text-xl">
+                  <h4 className="w-full flex gap-4 justify-between sm:text-xl text-lg">
                     <span className="flex flex-grow basis-0">
                       2020 - Present
                     </span>
-                    <div className="flex flex-grow gap-2 justify-end items-center">
+                    <div className="flex flex-grow gap-4 sm:gap-3 justify-end items-start">
                       <p className="text-right">
-                        Front-end student developer @ Adaptagency
+                        Front-end part-time developer @{" "}
+                        <a
+                          href="https://adaptagency.com/"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="underline"
+                        >
+                          Adaptagency
+                        </a>
                       </p>
-                      <NextImage src={DKIcon} width={32} height={24} />
+                      <div className="flex-shrink-0 flex mt-1">
+                        <NextImage src={DKIcon} width={32} height={24} />
+                      </div>
                     </div>
                   </h4>
                   <p className="mt-2">
@@ -474,13 +489,23 @@ const Home = ({ data }: { data: any }) => {
                 </div>
 
                 <div>
-                  <h4 className="w-full flex justify-between text-xl">
+                  <h4 className="w-full flex justify-between sm:text-xl text-lg">
                     <span>2019 - 2020</span>
-                    <div className="flex gap-2">
+                    <div className="flex flex-grow gap-4 sm:gap-3 justify-end items-start">
                       <p className="text-right">
-                        Front-end student developer @ Adaptagency
+                        Front-end part-time developer @{" "}
+                        <a
+                          href="https://adaptagency.com/"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="underline"
+                        >
+                          Adaptagency
+                        </a>
                       </p>
-                      <NextImage src={LTIcon} width={32} height={24} />
+                      <div className="flex-shrink-0 flex mt-1">
+                        <NextImage src={LTIcon} width={32} height={24} />
+                      </div>
                     </div>
                   </h4>
                   <p className="mt-2">
@@ -490,10 +515,18 @@ const Home = ({ data }: { data: any }) => {
                 </div>
 
                 <div>
-                  <h4 className="w-full flex justify-between text-xl">
+                  <h4 className="w-full flex justify-between sm:text-xl text-lg">
                     <span>2018, 2019 Summer</span>
                     <span className="text-right">
-                      Front-end internship @ Adaptagency
+                      Front-end internships @{" "}
+                      <a
+                        href="https://adaptagency.com/"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline"
+                      >
+                        Adaptagency
+                      </a>
                     </span>
                   </h4>
                   <p className="mt-2">(W.I.P) Learning React.js and Redux.</p>
@@ -521,13 +554,17 @@ const Home = ({ data }: { data: any }) => {
                 }}
               >
                 <div>
-                  <h4 className="w-full flex justify-between text-xl">
-                    <span>2020 - 2023</span>
-                    <div className="flex gap-2">
-                      <p>
+                  <h4 className="w-full flex gap-4 justify-between sm:text-xl text-lg">
+                    <span className="flex flex-grow basis-[140px]">
+                      2020 - 2023
+                    </span>
+                    <div className="flex flex-grow gap-4 sm:gap-3 justify-end items-start">
+                      <p className="text-right">
                         Computer Science & Mathematics @ Roskilde University
                       </p>
-                      <NextImage src={DKIcon} width={32} height={24} />
+                      <div className="flex-shrink-0 flex mt-1">
+                        <NextImage src={DKIcon} width={32} height={24} />
+                      </div>
                     </div>
                   </h4>
                   <p className="mt-2">
@@ -552,28 +589,32 @@ const Home = ({ data }: { data: any }) => {
         </AnimatePresence>
       </div>
       <div>
-        <h2 className="text-2xl mt-16 text-center">Whats next?</h2>
-        <div className="text-xl mt-8 flex justify-center gap-20 flex-col sm:flex-row">
+        <h2 className="sm:text-2xl text-xl mt-12 sm:mt-16 text-center">
+          Whats next?
+        </h2>
+        <div className="text-lg sm:text-xl sm:mt-8 mt-4 flex justify-center gap-20 flex-col sm:flex-row">
           <div className="relative after:absolute sm:after:h-full sm:after:top-0 sm:after:right-[-40px] sm:after:rotate-12 sm:after:w-[1px] after:bg-gray-300 after:w-2/3 after:h-[1px] after:bottom-[-40px] after:left-1/2 sm:after:left-auto after:-translate-x-1/2 before:content-['or'] before:bg-white before:w-10 before:absolute before:bottom-[-54px] before:z-[1] before:left-1/2 before:-translate-x-1/2 before:text-center sm:before:hidden">
             <p>
-              Have any <span className="text-[#ff5208]">questions</span>?
-              Don&#39;t be scared to say Hi 👋
-            </p>
-            <Link href="/email">
-              <a className="flex gap-3 cursor-pointer">
-                <p className="underline">Write to me</p>{" "}
-                <NextImage src={RightArrowIcon} />
-              </a>
-            </Link>
-          </div>
-          <div>
-            <p className="mt-0 sm:mt-24">
               Check my recent <span className="text-[#ff5208]">projects</span>{" "}
               💻
             </p>
             <Link href="/projects">
               <a className="flex gap-3 cursor-pointer">
                 <p className="underline">Read more</p>{" "}
+                <NextImage src={RightArrowIcon} />
+              </a>
+            </Link>
+          </div>
+          <div>
+            <p className="mt-0 sm:mt-24">
+              I would love to hear about your{" "}
+              <span className="text-[#ff5208]">ideas</span> and{" "}
+              <span className="text-[#ff5208]">projects</span>. Let&#39;s talk
+              👋
+            </p>
+            <Link href="/email">
+              <a className="flex gap-3 cursor-pointer">
+                <p className="underline">Write to me</p>{" "}
                 <NextImage src={RightArrowIcon} />
               </a>
             </Link>
