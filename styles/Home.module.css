@@ -30,7 +30,7 @@
   height: 1px;
   background-color: black;
   position: absolute;
-  transform: translateX(-100%);
+  transform: translateX(-101%);
   transition: transform ease-in-out 0.1s;
 }
 

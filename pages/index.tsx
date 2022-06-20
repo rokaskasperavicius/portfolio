@@ -98,29 +98,80 @@ const Home = ({ data }: { data: any }) => {
   }, [view, leftControl, rightControl]);
 
   useEffect(() => {
-    // Constants
-    const yPadding = 200;
-    const headerHeight = 56;
-    const expWidth = 75;
-    const expHeight = 50;
-    const mappedExperience: ExpOption[] = [];
+    if (window.innerWidth >= 640) {
+      // Constants
+      const yPadding = 200;
+      const headerHeight = 56;
+      const expWidth = 75;
+      const expHeight = 50;
+      const mappedExperience: ExpOption[] = [];
 
-    // Elements
-    const heroText = document.getElementById("hero-text");
-    const heroImage = document.getElementById("hero-image");
+      // Elements
+      const heroText = document.getElementById("hero-text");
+      const heroImage = document.getElementById("hero-image");
 
-    if (heroText && heroImage) {
-      const textRect = heroText.getBoundingClientRect();
-      const imageRect = heroImage.getBoundingClientRect();
+      if (heroText && heroImage) {
+        const textRect = heroText.getBoundingClientRect();
+        const imageRect = heroImage.getBoundingClientRect();
 
-      const xBound = imageRect.left - textRect.left - expWidth;
+        const xBound = imageRect.left - textRect.left - expWidth;
+        const left = 0;
+
+        const yBound = heroText.clientHeight + yPadding;
+        const top = textRect.top - headerHeight - yPadding / 2;
+
+        const xCount = Math.ceil(xBound / expWidth);
+        const yCount = Math.ceil(yBound / expHeight);
+
+        if (xCount * yCount < exp.length) {
+          return;
+        }
+
+        exp.forEach((e) => {
+          let x = -1;
+          let y = -1;
+
+          do {
+            x = getRandomInt(0, xCount);
+            y = getRandomInt(0, yCount);
+          } while (
+            mappedExperience.filter(
+              (mapExp: ExpOption) => mapExp.x === x && mapExp.y === y
+            ).length > 0
+          );
+
+          mappedExperience.push({ x, y });
+        });
+
+        setExpOptions(mappedExperience);
+        setExpOptionsCorner({ x: left, y: top });
+      }
+    } else {
+      // Constants
+      // const yPadding = 200;
+      const headerHeight = 56;
+      const expWidth = 75;
+      const expHeight = 50 + 20;
+      const mappedExperience: ExpOption[] = [];
+
+      // Elements
+      // const heroText = document.getElementById("hero-text");
+      // const heroImage = document.getElementById("hero-image");
+
+      // if (heroText && heroImage) {
+      // const textRect = heroText.getBoundingClientRect();
+      // const imageRect = heroImage.getBoundingClientRect();
+
+      const xBound = window.innerWidth - expWidth;
       const left = 0;
 
-      const yBound = heroText.clientHeight + yPadding;
-      const top = textRect.top - headerHeight - yPadding / 2;
+      console.log(xBound);
 
-      const xCount = Math.ceil(xBound / expWidth);
-      const yCount = Math.ceil(yBound / expHeight);
+      const yBound = window.innerHeight - expHeight - 300;
+      const top = expHeight;
+
+      const xCount = Math.floor(xBound / expWidth);
+      const yCount = Math.floor(yBound / expHeight);
 
       if (xCount * yCount < exp.length) {
         return;
@@ -145,44 +196,43 @@ const Home = ({ data }: { data: any }) => {
       setExpOptions(mappedExperience);
       setExpOptionsCorner({ x: left, y: top });
     }
+    // }
   }, []);
   console.log(expOptions);
 
   return (
     <main className="relative max-w-7xl m-auto">
-      <div className="h-[calc(100vh-56px)] flex flex-col lg:justify-center">
-        <div className="flex flex-col-reverse lg:flex-row items-center lg:items-stretch justify-around lg:gap-6 gap-14 mt-14 sm:mt-8 lg:mt-0">
+      <div className="text-xs">
+        {expOptions.length > 0 &&
+          expOptionsCorner &&
+          exp.map((e, index) => {
+            return (
+              <>
+                <motion.span
+                  key={e}
+                  className="absolute text-gray-200 z-[-1]"
+                  animate={{ y: [0, 20, 0] }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: getRandomInt(5, 7), // 4, 7
+                    delay: getRandomInt(0, 3),
+                  }}
+                  style={{
+                    top: (expOptions[index] as any).y * 50 + expOptionsCorner.y,
+                    left:
+                      (expOptions[index] as any).x * 75 + expOptionsCorner.x,
+                  }}
+                >
+                  {e}
+                </motion.span>
+              </>
+            );
+          })}
+      </div>
+      <div className="h-[calc(100vh-56px)] flex flex-col justify-center">
+        <div className="flex flex-col-reverse lg:flex-row items-center lg:items-stretch justify-around lg:gap-6 gap-14 mt-[-80px] sm:mt-8 lg:mt-0">
           <div className="flex justify-between text-2xl sm:text-3xl flex-col sm:flex-row lg:flex-col gap-10 lg:gap-0 items-start sm:items-end lg:items-start">
-            <div className="text-xs hidden lg:block">
-              {expOptions.length > 0 &&
-                expOptionsCorner &&
-                exp.map((e, index) => {
-                  return (
-                    <>
-                      <motion.span
-                        key={e}
-                        className="absolute text-gray-200 z-[-1]"
-                        animate={{ y: [0, 10, 0] }}
-                        transition={{
-                          repeat: Infinity,
-                          duration: getRandomInt(4, 7),
-                          delay: getRandomInt(0, 3),
-                        }}
-                        style={{
-                          top:
-                            (expOptions[index] as any).y * 50 +
-                            expOptionsCorner.y,
-                          left:
-                            (expOptions[index] as any).x * 75 +
-                            expOptionsCorner.x,
-                        }}
-                      >
-                        {e}
-                      </motion.span>
-                    </>
-                  );
-                })}
-            </div>
+            <div className="hidden lg:block"></div>
             <div id="hero-text">
               <div className="flex gap-[10px]">
                 <div>I am Rokas - </div>
@@ -300,7 +350,7 @@ const Home = ({ data }: { data: any }) => {
       <div>
         <AnimatePresence
           position="left"
-          className="lg:w-2/3 border border-black rounded-2xl p-5 shadow-right-full"
+          className="lg:w-2/3 sm:border sm:border-black sm:rounded-2xl sm:p-5 sm:shadow-right-full"
         >
           <>
             <h2 className="text-2xl">About me</h2>
@@ -348,7 +398,7 @@ const Home = ({ data }: { data: any }) => {
         </AnimatePresence>
         <AnimatePresence
           position="right"
-          className="ml-auto mt-8 lg:w-2/3 rounded-2xl border border-black p-5 shadow-right-full"
+          className="ml-auto mt-8 lg:w-2/3 sm:rounded-2xl sm:border sm:border-black sm:p-5 sm:shadow-right-full"
         >
           <>
             <h2 className="flex justify-between items-center">
@@ -378,7 +428,7 @@ const Home = ({ data }: { data: any }) => {
                 </div>
               </div>
             </h2>
-            <div className="relative h-[300px] overflow-y-scroll overflow-x-hidden mt-4">
+            <div className="relative h-[450px] sm:h-[300px] overflow-y-scroll overflow-x-hidden mt-4">
               <motion.div
                 className="absolute w-full flex flex-col gap-y-8"
                 animate={leftControl}
@@ -418,8 +468,8 @@ const Home = ({ data }: { data: any }) => {
                     </div>
                   </h4>
                   <p className="mt-2">
-                    Working with variaty of clients. Using Next.js, React.js,
-                    Vue.js, DatoCMS and tailwindcss.
+                    (W.I.P) Working with variaty of clients. Using Next.js,
+                    React.js, Vue.js, DatoCMS and tailwindcss.
                   </p>
                 </div>
 
@@ -434,7 +484,8 @@ const Home = ({ data }: { data: any }) => {
                     </div>
                   </h4>
                   <p className="mt-2">
-                    Working with variaty of clients. Using React.js, Redux.
+                    (W.I.P) Working with variaty of clients. Using React.js,
+                    Redux.
                   </p>
                 </div>
 
@@ -445,7 +496,7 @@ const Home = ({ data }: { data: any }) => {
                       Front-end internship @ Adaptagency
                     </span>
                   </h4>
-                  <p className="mt-2">Learning React.js and Redux.</p>
+                  <p className="mt-2">(W.I.P) Learning React.js and Redux.</p>
                 </div>
               </motion.div>
               <motion.div
@@ -502,21 +553,21 @@ const Home = ({ data }: { data: any }) => {
       </div>
       <div>
         <h2 className="text-2xl mt-16 text-center">Whats next?</h2>
-        <div className="text-xl mt-8 flex justify-center gap-20">
-          <div className="relative after:absolute after:h-full after:top-0 after:right-[-40px] after:rotate-12 after:w-[1px] after:bg-gray-300">
+        <div className="text-xl mt-8 flex justify-center gap-20 flex-col sm:flex-row">
+          <div className="relative after:absolute sm:after:h-full sm:after:top-0 sm:after:right-[-40px] sm:after:rotate-12 sm:after:w-[1px] after:bg-gray-300 after:w-2/3 after:h-[1px] after:bottom-[-40px] after:left-1/2 sm:after:left-auto after:-translate-x-1/2 before:content-['or'] before:bg-white before:w-10 before:absolute before:bottom-[-54px] before:z-[1] before:left-1/2 before:-translate-x-1/2 before:text-center sm:before:hidden">
             <p>
               Have any <span className="text-[#ff5208]">questions</span>?
               Don&#39;t be scared to say Hi 👋
             </p>
             <Link href="/email">
               <a className="flex gap-3 cursor-pointer">
-                <p className="underline">Read more</p>{" "}
+                <p className="underline">Write to me</p>{" "}
                 <NextImage src={RightArrowIcon} />
               </a>
             </Link>
           </div>
           <div>
-            <p className="mt-24">
+            <p className="mt-0 sm:mt-24">
               Check my recent <span className="text-[#ff5208]">projects</span>{" "}
               💻
             </p>

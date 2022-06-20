@@ -7,6 +7,20 @@
   src: url("Biotif-Regular.ttf");
 }
 
+@font-face {
+  font-family: "ADELIA";
+  src: url("Biotif-Bold.ttf");
+  font-weight: bold;
+}
+
+body #nprogress .spinner {
+  display: none;
+}
+
+body #nprogress .bar {
+  background: #ff5208;
+}
+
 html,
 body {
   padding: 0;

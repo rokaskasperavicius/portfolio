@@ -9,7 +9,7 @@ type Props = {
 };
 
 export const AnimatePresence = ({ children, position, className }: Props) => {
-  const [ref, inView, entry] = useInView({ threshold: 0.5, triggerOnce: true });
+  const [ref, inView, entry] = useInView({ threshold: 0.2, triggerOnce: true });
 
   const control = useAnimation();
 
