@@ -209,17 +209,22 @@ const Home = ({ data }: { data: any }) => {
         {expOptions.length > 0 &&
           expOptionsCorner &&
           exp.map((e, index) => {
+            const num = getRandomInt(0, 3);
             return (
               <>
                 <motion.span
                   key={e}
-                  className="absolute text-gray-200 z-[-1]"
-                  animate={{ y: [0, 20, 0] }}
-                  transition={{
-                    repeat: Infinity,
-                    duration: getRandomInt(5, 7), // 4, 7
-                    delay: getRandomInt(0, 3),
-                  }}
+                  className={clsx("absolute text-gray-200 z-[-1]", {
+                    "text-[10px]": num === 0,
+                    "text-xs": num === 1,
+                    "text-sm": num === 2,
+                  })}
+                  // animate={{ y: [0, 20, 0] }}
+                  // transition={{
+                  //   repeat: Infinity,
+                  //   duration: getRandomInt(5, 7), // 4, 7
+                  //   delay: getRandomInt(0, 3),
+                  // }}
                   style={{
                     top: (expOptions[index] as any).y * 50 + expOptionsCorner.y,
                     left:
