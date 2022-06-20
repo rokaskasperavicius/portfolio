@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { Image, ResponsiveImageType } from "react-datocms";
 import styles from "../styles/Home.module.css";
-import { motion, useAnimation } from "framer-motion";
+import { motion, useAnimation, useDragControls } from "framer-motion";
 import NextImage from "next/image";
 import clsx from "clsx";
 import Link from "next/link";
@@ -13,7 +13,8 @@ import FacebookIcon from "../assets/facebook.svg";
 import InstagramIcon from "../assets/instagram.svg";
 import GithubIcon from "../assets/github.svg";
 import RightArrowIcon from "../assets/arrow-right.svg";
-import Rokas from "../assets/rokas.jpg";
+import DKIcon from "../assets/dk.svg";
+import LTIcon from "../assets/lt.svg";
 
 import { useInView } from "react-intersection-observer";
 
@@ -38,30 +39,18 @@ const exp = [
   "C#",
   "Python",
 ];
-// Motivated, Experienced, Productive, Helpful
-//
 
-//  animation: word $speed infinite ease-in-out;
+type ExpOption = {
+  x: number;
+  y: number;
+};
 
-//   @for $i from 0 to $wordCount {
-//     &:nth-child(#{$i + 1}) {
-//       animation-delay: ($speed / ($wordCount + 1) * $i) - $speed;
-//     }
-//   }
+function getRandomInt(min: number, max: number) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
 
-//   @keyframes word {
-//     0%,
-//     5%,
-//     100% {
-//       filter: blur(0px);
-//       opacity: 1;
-//     }
-//     20%,
-//     80% {
-//       filter: blur(1em);
-//       opacity: 0;
-//     }
-//   }
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 export function request({ query, variables, preview }: Props) {
   const endpoint = preview
@@ -78,8 +67,8 @@ export function request({ query, variables, preview }: Props) {
 const Home = ({ data }: { data: any }) => {
   const [view, setView] = useState<"work" | "education">("work");
 
-  const [coords, setCoords] = useState([]);
-  const [middle, setMiddle] = useState(0);
+  const [expOptions, setExpOptions] = useState<ExpOption[]>([]);
+  const [expOptionsCorner, setExpOptionsCorner] = useState<ExpOption>();
 
   const leftControl = useAnimation();
   const rightControl = useAnimation();
@@ -88,7 +77,7 @@ const Home = ({ data }: { data: any }) => {
     if (view === "work") {
       rightControl.start(() => ({
         opacity: 0,
-        x: 400,
+        x: 800, // 400
       }));
 
       leftControl.start(() => ({
@@ -103,64 +92,70 @@ const Home = ({ data }: { data: any }) => {
 
       leftControl.start(() => ({
         opacity: 0,
-        x: -400,
+        x: -800,
       }));
     }
   }, [view, leftControl, rightControl]);
-  console.log(coords);
 
   useEffect(() => {
-    const a = document.getElementById("test")?.getBoundingClientRect();
-    const b = document.getElementById("a")?.getBoundingClientRect();
+    // Constants
+    const yPadding = 200;
+    const headerHeight = 56;
+    const expWidth = 75;
+    const expHeight = 50;
+    const mappedExperience: ExpOption[] = [];
 
-    const topBottom = a ? a.top - 40 : 0;
-    setMiddle(topBottom);
-    const top = topBottom;
+    // Elements
+    const heroText = document.getElementById("hero-text");
+    const heroImage = document.getElementById("hero-image");
 
-    const left = (b ? b.left : 0) - 75;
+    if (heroText && heroImage) {
+      const textRect = heroText.getBoundingClientRect();
+      const imageRect = heroImage.getBoundingClientRect();
 
-    const test = [] as any;
+      const xBound = imageRect.left - textRect.left - expWidth;
+      const left = 0;
 
-    function getRandomInt(max: number) {
-      return Math.floor(Math.random() * max);
+      const yBound = heroText.clientHeight + yPadding;
+      const top = textRect.top - headerHeight - yPadding / 2;
+
+      const xCount = Math.ceil(xBound / expWidth);
+      const yCount = Math.ceil(yBound / expHeight);
+
+      if (xCount * yCount < exp.length) {
+        return;
+      }
+
+      exp.forEach((e) => {
+        let x = -1;
+        let y = -1;
+
+        do {
+          x = getRandomInt(0, xCount);
+          y = getRandomInt(0, yCount);
+        } while (
+          mappedExperience.filter(
+            (mapExp: ExpOption) => mapExp.x === x && mapExp.y === y
+          ).length > 0
+        );
+
+        mappedExperience.push({ x, y });
+      });
+
+      setExpOptions(mappedExperience);
+      setExpOptionsCorner({ x: left, y: top });
     }
-
-    const yIndex = Math.ceil(top / 50);
-    const xIndex = Math.ceil(left / 75);
-
-    console.log(xIndex);
-    console.log(left);
-
-    exp.forEach((e) => {
-      let x = -1;
-      let y = -1;
-
-      do {
-        x = getRandomInt(xIndex);
-        y = getRandomInt(yIndex);
-      } while (test.filter((a: any) => a.x === x && a.y === y).length > 0);
-
-      test.push({ x, y });
-    });
-    setCoords(test);
   }, []);
-
-  function getRandomInt(min: any, max: any) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-  // console.log(getRandomInt(-5, 5));
+  console.log(expOptions);
 
   return (
-    <main className="relative">
-      <div className="h-[calc(100vh-57px)] flex flex-col justify-center">
-        <div className="flex justify-around">
-          <div className="flex justify-between text-3xl flex-col">
-            <div className="text-xs">
-              {coords.length > 0 &&
-                middle !== 0 &&
+    <main className="relative max-w-7xl m-auto">
+      <div className="h-[calc(100vh-56px)] flex flex-col lg:justify-center">
+        <div className="flex flex-col-reverse lg:flex-row items-center lg:items-stretch justify-around lg:gap-6 gap-14 mt-14 sm:mt-8 lg:mt-0">
+          <div className="flex justify-between text-2xl sm:text-3xl flex-col sm:flex-row lg:flex-col gap-10 lg:gap-0 items-start sm:items-end lg:items-start">
+            <div className="text-xs hidden lg:block">
+              {expOptions.length > 0 &&
+                expOptionsCorner &&
                 exp.map((e, index) => {
                   return (
                     <>
@@ -175,11 +170,11 @@ const Home = ({ data }: { data: any }) => {
                         }}
                         style={{
                           top:
-                            (coords[index] as any).y * 50 +
-                            middle / 2 +
-                            getRandomInt(0, 11),
+                            (expOptions[index] as any).y * 50 +
+                            expOptionsCorner.y,
                           left:
-                            (coords[index] as any).x * 75 + getRandomInt(0, 10),
+                            (expOptions[index] as any).x * 75 +
+                            expOptionsCorner.x,
                         }}
                       >
                         {e}
@@ -187,44 +182,8 @@ const Home = ({ data }: { data: any }) => {
                     </>
                   );
                 })}
-
-              {/* <motion.span
-                className="absolute top-2/3 left-2/3 text-gray-200 z-[-1]"
-                animate={{ y: [0, 10, 0] }}
-                transition={{ repeat: Infinity, duration: 6 }}
-              >
-                Next.js
-              </motion.span>
-              <motion.span
-                className="absolute top-1/2 left-2/3 text-gray-200 z-[-1]"
-                animate={{ y: [0, 10, 0] }}
-                transition={{ repeat: Infinity, duration: 6, delay: 1 }}
-              >
-                Node.js
-              </motion.span>
-              <motion.span
-                className="absolute top-2/3 left-1/2 text-gray-200 z-[-1]"
-                animate={{ y: [0, 10, 0] }}
-                transition={{ repeat: Infinity, duration: 6, delay: 0.5 }}
-              >
-                Express.js
-              </motion.span>
-              <motion.span
-                className="absolute top-1/4 left-1/2 text-gray-200 z-[-1]"
-                animate={{ y: [0, 10, 0] }}
-                transition={{ repeat: Infinity, duration: 5, delay: 1 }}
-              >
-                PostgreSQL
-              </motion.span>
-              <motion.span
-                className="absolute top-1/2 left-1/4 text-gray-200 z-[-1]"
-                animate={{ y: [0, 10, 0] }}
-                transition={{ repeat: Infinity, duration: 5, delay: 1 }}
-              >
-                Java
-              </motion.span> */}
             </div>
-            <div id="test">
+            <div id="hero-text">
               <div className="flex gap-[10px]">
                 <div>I am Rokas - </div>
                 <div className="relative">
@@ -319,10 +278,7 @@ const Home = ({ data }: { data: any }) => {
               </motion.div>
             </div>
           </div>
-          <div
-            id="a"
-            // className="rounded-3xl relative border-black overflow-hidden"
-          >
+          <div id="hero-image" className="hidden sm:block">
             <Image
               usePlaceholder={false}
               // fadeInDuration={10000}
@@ -344,7 +300,7 @@ const Home = ({ data }: { data: any }) => {
       <div>
         <AnimatePresence
           position="left"
-          className="w-2/3 border border-black rounded-2xl p-5 shadow-right-full"
+          className="lg:w-2/3 border border-black rounded-2xl p-5 shadow-right-full"
         >
           <>
             <h2 className="text-2xl">About me</h2>
@@ -392,13 +348,12 @@ const Home = ({ data }: { data: any }) => {
         </AnimatePresence>
         <AnimatePresence
           position="right"
-          className="ml-auto mt-8 w-2/3 rounded-2xl border border-black p-5 shadow-right-full"
+          className="ml-auto mt-8 lg:w-2/3 rounded-2xl border border-black p-5 shadow-right-full"
         >
           <>
-            <h2 className="text-2xl flex justify-between items-center">
-              <div>My experience</div>
-              {/* <div className="relative flex-grow after:absolute after:w-2/3 after:h-[1px] after:bg-black after:top-1/2 after:left-1/2 after:-translate-x-1/2" /> */}
-              <div className="flex">
+            <h2 className="flex justify-between items-center">
+              <div className="text-2xl">My experience</div>
+              <div className="flex text-xl">
                 <div
                   className={clsx(
                     "cursor-pointer pr-2 pl-3 pt-[5px] rounded-tl-2xl rounded-bl-2xl",
@@ -424,33 +379,123 @@ const Home = ({ data }: { data: any }) => {
               </div>
             </h2>
             <div className="relative h-[300px] overflow-y-scroll overflow-x-hidden mt-4">
-              <motion.p className="absolute" animate={leftControl}>
-                WORK Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Etiam ac purus id turpis rutrum posuere. Duis finibus purus ac
-                semper tincidunt. Suspendisse potenti. Pellentesque posuere,
-                massa at mattis pellentesque, eros lectus ultrices metus, eget
-                luctus felis massa id velit. Orci varius natoque penatibus et
-                magnis dis parturient montes, nascetur ridiculus mus. Quisque
-                ultricies justo a lectus dictum consectetur. Suspendisse
-                elementum nisi sit amet mi hendrerit interdum. Cras lobortis
-                tellus porttitor, interdum orci vel, efficitur libero. Phasellus
-                in diam nisi. Integer vitae ligula mattis, posuere velit nec,
-                tincidunt eros.
-              </motion.p>
-              <motion.p className="absolute" animate={rightControl}>
-                EDUCATIONAL Lorem ipsum dolor sit amet, consectetur adipiscing
-                elit. Ut vitae orci viverra, porta velit quis, tempus elit. In
-                lobortis ullamcorper velit, nec tristique eros fringilla ac.
-                Phasellus consequat luctus nibh. Proin id nisl velit. Phasellus
-                lacinia volutpat euismod. Aliquam sed vulputate lorem. Donec
-                sollicitudin, orci vel varius sagittis, quam lacus interdum sem,
-                id scelerisque massa enim eu lorem. Fusce maximus nisi odio, ac
-                mollis orci aliquam vel. Suspendisse potenti. Mauris quis
-                accumsan est. Nam pulvinar vel quam non efficitur. Etiam at
-                fringilla lorem. Aenean ipsum augue, iaculis sit amet odio et,
-                scelerisque suscipit dolor. Fusce vestibulum volutpat accumsan.
-                Proin nibh orci, facilisis ut vestibulum ut, ornare non leo.
-              </motion.p>
+              <motion.div
+                className="absolute w-full flex flex-col gap-y-8"
+                animate={leftControl}
+                transition={{ type: "tween", ease: "easeInOut" }}
+                // dragControls={dragControls}
+                // onPointerDown={startDrag}
+                drag="x"
+                dragSnapToOrigin={true}
+                dragConstraints={{ left: -500, right: 0 }}
+                onDragEnd={(event, info) => {
+                  // console.log(info);
+                  // console.log(
+                  //   info.offset.x * info.velocity.x > 300000 ? true : false
+                  // );
+                  if (
+                    info.offset.x * info.velocity.x > 10000 &&
+                    info.offset.x < 0
+                  ) {
+                    setView("education");
+                    // leftControl.start(() => ({
+                    //   opacity: 0,
+                    //   x: -800,
+                    // }));
+                  }
+                }}
+              >
+                <div>
+                  <h4 className="w-full flex gap-4 justify-between text-xl">
+                    <span className="flex flex-grow basis-0">
+                      2020 - Present
+                    </span>
+                    <div className="flex flex-grow gap-2 justify-end items-center">
+                      <p className="text-right">
+                        Front-end student developer @ Adaptagency
+                      </p>
+                      <NextImage src={DKIcon} width={32} height={24} />
+                    </div>
+                  </h4>
+                  <p className="mt-2">
+                    Working with variaty of clients. Using Next.js, React.js,
+                    Vue.js, DatoCMS and tailwindcss.
+                  </p>
+                </div>
+
+                <div>
+                  <h4 className="w-full flex justify-between text-xl">
+                    <span>2019 - 2020</span>
+                    <div className="flex gap-2">
+                      <p className="text-right">
+                        Front-end student developer @ Adaptagency
+                      </p>
+                      <NextImage src={LTIcon} width={32} height={24} />
+                    </div>
+                  </h4>
+                  <p className="mt-2">
+                    Working with variaty of clients. Using React.js, Redux.
+                  </p>
+                </div>
+
+                <div>
+                  <h4 className="w-full flex justify-between text-xl">
+                    <span>2018, 2019 Summer</span>
+                    <span className="text-right">
+                      Front-end internship @ Adaptagency
+                    </span>
+                  </h4>
+                  <p className="mt-2">Learning React.js and Redux.</p>
+                </div>
+              </motion.div>
+              <motion.div
+                className="absolute"
+                animate={rightControl}
+                transition={{ type: "tween", ease: "easeInOut" }}
+                drag="x"
+                dragSnapToOrigin={true}
+                dragConstraints={{ left: 0, right: 500 }}
+                onDragEnd={(event, info) => {
+                  console.log(info);
+                  if (
+                    info.offset.x * info.velocity.x > 10000 &&
+                    info.offset.x > 0
+                  ) {
+                    setView("work");
+                    // leftControl.start(() => ({
+                    //   opacity: 0,
+                    //   x: -800,
+                    // }));
+                  }
+                }}
+              >
+                <div>
+                  <h4 className="w-full flex justify-between text-xl">
+                    <span>2020 - 2023</span>
+                    <div className="flex gap-2">
+                      <p>
+                        Computer Science & Mathematics @ Roskilde University
+                      </p>
+                      <NextImage src={DKIcon} width={32} height={24} />
+                    </div>
+                  </h4>
+                  <p className="mt-2">
+                    Learned Python and applied my knowledge in the field of Data
+                    Science. Became proficient in Java while creating a project
+                    in full-stack development course. Moreover, I acquired
+                    knowledge about JavaFX, agile development, OOP, database
+                    management and applying different algorithms (Prims,
+                    Kruskal, Dijkstra and A*).
+                  </p>
+                  <p className="mt-2">
+                    During my studies I wrote multiple projects and learned
+                    about Neural Network image recognition, Mathematical
+                    Modelling of various diseases. Moreover, I created a
+                    full-stack website using React.js, Node.js and implemented
+                    multiple restful api&#39;s including SMTP.
+                  </p>
+                </div>
+              </motion.div>
             </div>
           </>
         </AnimatePresence>
@@ -505,7 +550,7 @@ const HOMEPAGE_QUERY = `query MyQuery {
   }
 }`;
 
-export async function getStaticProps() {
+export const getStaticProps = async () => {
   const data = await request({
     query: HOMEPAGE_QUERY,
     variables: { limit: 10 },
@@ -513,6 +558,6 @@ export async function getStaticProps() {
   return {
     props: { data },
   };
-}
+};
 
 export default Home;
