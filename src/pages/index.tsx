@@ -438,7 +438,7 @@ const Home = ({ data }: { data: any }) => {
                 </div>
               </div>
             </h2>
-            <div className="relative h-[400px] sm:h-[300px] overflow-y-scroll overflow-x-hidden mt-4">
+            <div className="relative h-[550px] sm:h-[400px] overflow-y-scroll overflow-x-hidden mt-4">
               <motion.div
                 className="absolute w-full flex flex-col gap-y-8"
                 animate={leftControl}
@@ -524,7 +524,20 @@ const Home = ({ data }: { data: any }) => {
                       </a>
                     </span>
                   </h4>
-                  <p className="mt-2">(W.I.P) Learning React.js and Redux.</p>
+                  <p className="mt-2">
+                    During 2018 Summer I had a 3 month internship in Kaunas,
+                    Lithuania. I succeeded in learning React.js, SCSS, Redux,
+                    REST-ful API&#39;s and many other front-end tools. Moreover,
+                    I experienced working for different clients, applying Agile
+                    development methods, organizing my time and solving problems
+                    with other colleagues.
+                  </p>
+                  <p className="mt-2">
+                    In 2019 I had another 3 month internship in Copenhagen,
+                    Denmark. I expanded my knowledge about above-mentioned
+                    technologies and gained experience in working with variety
+                    of projects.
+                  </p>
                 </div>
               </motion.div>
               <motion.div
@@ -532,6 +545,7 @@ const Home = ({ data }: { data: any }) => {
                 animate={rightControl}
                 transition={{ type: "tween", ease: "easeInOut" }}
                 drag="x"
+                dragDirectionLock
                 dragSnapToOrigin={true}
                 dragConstraints={{ left: 0, right: 500 }}
                 onDragEnd={(event, info) => {
