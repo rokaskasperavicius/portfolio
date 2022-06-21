@@ -219,12 +219,12 @@ const Home = ({ data }: { data: any }) => {
                     "text-xs": num === 1,
                     "text-sm": num === 2,
                   })}
-                  // animate={{ y: [0, 20, 0] }}
-                  // transition={{
-                  //   repeat: Infinity,
-                  //   duration: getRandomInt(5, 7), // 4, 7
-                  //   delay: getRandomInt(0, 3),
-                  // }}
+                  animate={{ y: [0, 20, 0] }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: getRandomInt(5, 7), // 4, 7
+                    delay: getRandomInt(0, 3),
+                  }}
                   style={{
                     top: (expOptions[index] as any).y * 50 + expOptionsCorner.y,
                     left:
@@ -605,31 +605,39 @@ const Home = ({ data }: { data: any }) => {
           Whats next?
         </h2>
         <div className="text-lg sm:text-xl sm:mt-8 mt-4 flex justify-center gap-20 flex-col sm:flex-row">
-          <div className="relative after:absolute sm:after:h-full sm:after:top-0 sm:after:right-[-40px] sm:after:rotate-12 sm:after:w-[1px] after:bg-gray-300 after:w-2/3 after:h-[1px] after:bottom-[-40px] after:left-1/2 sm:after:left-auto after:-translate-x-1/2 before:content-['or'] before:bg-white before:w-10 before:absolute before:bottom-[-54px] before:z-[1] before:left-1/2 before:-translate-x-1/2 before:text-center sm:before:hidden">
-            <p>
-              Check my recent <span className="text-[#ff5208]">projects</span>{" "}
-              💻
-            </p>
-            <Link href="/projects">
-              <a className="flex gap-3 cursor-pointer">
-                <p className="underline">Read more</p>{" "}
-                <NextImage src={RightArrowIcon} />
-              </a>
-            </Link>
+          <div className="relative after:absolute sm:after:h-full sm:after:top-0 sm:after:right-[-40px] sm:after:rotate-12 sm:after:w-[1px] after:bg-gray-300 after:w-2/3 after:h-[1px] after:bottom-[-40px] after:left-1/2 sm:after:left-auto after:-translate-x-1/2 before:content-['or'] before:text-gray-300 before:bg-white before:w-10 before:absolute before:bottom-[-54px] before:z-[1] before:left-1/2 before:-translate-x-1/2 before:text-center sm:before:right-[-58px] sm:before:top-1/2 sm:before:-translate-y-1/2 sm:before:left-auto sm:before:bottom-auto sm:before:translate-x-0">
+            <AnimatePresence threshold={0.6} position="left">
+              <>
+                <p>
+                  Check my recent{" "}
+                  <span className="text-[#ff5208]">projects</span> 💻
+                </p>
+                <Link href="/projects">
+                  <a className="flex gap-3 cursor-pointer">
+                    <p className="underline">Read more</p>{" "}
+                    <NextImage src={RightArrowIcon} />
+                  </a>
+                </Link>
+              </>
+            </AnimatePresence>
           </div>
           <div>
-            <p className="mt-0 sm:mt-24">
-              I would love to hear about your{" "}
-              <span className="text-[#ff5208]">ideas</span> and{" "}
-              <span className="text-[#ff5208]">projects</span>. Let&#39;s talk
-              👋
-            </p>
-            <Link href="/email">
-              <a className="flex gap-3 cursor-pointer">
-                <p className="underline">Write to me</p>{" "}
-                <NextImage src={RightArrowIcon} />
-              </a>
-            </Link>
+            <AnimatePresence position="right" threshold={0.6}>
+              <>
+                <p className="mt-0 sm:mt-24">
+                  I would love to hear about your{" "}
+                  <span className="text-[#ff5208]">ideas</span> and{" "}
+                  <span className="text-[#ff5208]">projects</span>. Let&#39;s
+                  talk 👋
+                </p>
+                <Link href="/email">
+                  <a className="flex gap-3 cursor-pointer">
+                    <p className="underline">Write to me</p>{" "}
+                    <NextImage src={RightArrowIcon} />
+                  </a>
+                </Link>
+              </>
+            </AnimatePresence>
           </div>
         </div>
       </div>

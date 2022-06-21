@@ -5,11 +5,17 @@ import { useInView } from "react-intersection-observer";
 type Props = {
   children: JSX.Element;
   position: "left" | "right";
-  className: string;
+  className?: string;
+  threshold?: number;
 };
 
-export const AnimatePresence = ({ children, position, className }: Props) => {
-  const [ref, inView, entry] = useInView({ threshold: 0.2, triggerOnce: true });
+export const AnimatePresence = ({
+  children,
+  position,
+  className = "",
+  threshold = 0.2,
+}: Props) => {
+  const [ref, inView, entry] = useInView({ threshold, triggerOnce: true });
 
   const control = useAnimation();
 
