@@ -50,6 +50,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
                 "font-bold": path === "/",
               })}
               animate={{ y: [-20, 0], opacity: [0, 1] }}
+              initial={{ y: -20, opacity: 0 }}
               transition={{ delay: 1 }}
             >
               Home
