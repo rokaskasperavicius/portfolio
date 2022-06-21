@@ -7,6 +7,7 @@ type Props = {
   position: "left" | "right";
   className?: string;
   threshold?: number;
+  delay?: number;
 };
 
 export const AnimatePresence = ({
@@ -14,6 +15,7 @@ export const AnimatePresence = ({
   position,
   className = "",
   threshold = 0.2,
+  delay = 0,
 }: Props) => {
   const [ref, inView, entry] = useInView({ threshold, triggerOnce: true });
 
@@ -43,6 +45,7 @@ export const AnimatePresence = ({
         },
       }}
       className={className}
+      transition={{ delay }}
     >
       {children}
     </motion.div>

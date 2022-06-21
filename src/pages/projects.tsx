@@ -33,7 +33,7 @@ const Home: NextPage = () => {
         Throughout my programming career I have experimented with a lot of
         different front-end technologies for both university and hobby projects.
       </p>
-      <AnimatePresence position="left">
+      <AnimatePresence position="left" delay={0.3}>
         <motion.div
           animate={control}
           className="flex lg:flex-row flex-col sm:gap-8 gap-2 sm:border sm:border-black sm:rounded-2xl sm:shadow-right-full sm:p-5 sm:hover:bg-gray-50"
@@ -60,7 +60,7 @@ const Home: NextPage = () => {
             navigation={true}
             loop={true}
             mousewheel={true}
-            modules={[Navigation, Pagination, Mousewheel, Keyboard]}
+            modules={[Navigation, Pagination, Keyboard]}
             keyboard={{
               enabled: true,
             }}

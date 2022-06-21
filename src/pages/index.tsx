@@ -68,6 +68,7 @@ export function request({ query, variables, preview }: Props) {
 }
 
 const Home = ({ data }: { data: any }) => {
+  console.log(data);
   const [view, setView] = useState<"work" | "education">("work");
 
   const [expOptions, setExpOptions] = useState<ExpOption[]>([]);
@@ -351,7 +352,7 @@ const Home = ({ data }: { data: any }) => {
           <div id="hero-image" className="hidden sm:block">
             <Image
               usePlaceholder={false}
-              data={data.upload.responsiveImage}
+              data={data.allUploads[0].responsiveImage}
               pictureClassName="rounded-3xl"
             />
           </div>
@@ -674,7 +675,7 @@ const variants = {
 };
 
 const HOMEPAGE_QUERY = `query MyQuery {
-  upload {
+  allUploads(filter: {id: {eq: "7701728"}}) {
     responsiveImage(imgixParams: { fit: crop, w: 500, h: 600, auto: format }) {
         srcSet
         webpSrcSet
