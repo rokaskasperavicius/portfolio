@@ -76,6 +76,9 @@ const Home = ({ data }: { data: any }) => {
   const leftControl = useAnimation();
   const rightControl = useAnimation();
 
+  const leftP = useAnimation();
+  const rightP = useAnimation();
+
   useEffect(() => {
     if (view === "work") {
       rightControl.start(() => ({
@@ -612,12 +615,20 @@ const Home = ({ data }: { data: any }) => {
                   Check my recent{" "}
                   <span className="text-[#ff5208]">projects</span> 💻
                 </p>
-                <Link href="/projects">
-                  <a className="flex gap-3 cursor-pointer">
-                    <p className="underline">Read more</p>{" "}
+                <div className="flex gap-3">
+                  <Link href="/projects" passHref>
+                    <motion.a
+                      onHoverStart={() => leftP.start({ x: 10 })}
+                      onHoverEnd={() => leftP.start({ x: 0 })}
+                      className="underline cursor-pointer"
+                    >
+                      Read more
+                    </motion.a>
+                  </Link>
+                  <motion.div animate={leftP} className="flex">
                     <NextImage src={RightArrowIcon} />
-                  </a>
-                </Link>
+                  </motion.div>
+                </div>
               </>
             </AnimatePresence>
           </div>
@@ -630,12 +641,20 @@ const Home = ({ data }: { data: any }) => {
                   <span className="text-[#ff5208]">projects</span>. Let&#39;s
                   talk 👋
                 </p>
-                <Link href="/email">
-                  <a className="flex gap-3 cursor-pointer">
-                    <p className="underline">Write to me</p>{" "}
+                <div className="flex gap-3">
+                  <Link href="/email" passHref>
+                    <motion.a
+                      onHoverStart={() => rightP.start({ x: 10 })}
+                      onHoverEnd={() => rightP.start({ x: 0 })}
+                      className="underline cursor-pointer"
+                    >
+                      Write to me
+                    </motion.a>
+                  </Link>
+                  <motion.div animate={rightP} className="flex">
                     <NextImage src={RightArrowIcon} />
-                  </a>
-                </Link>
+                  </motion.div>
+                </div>
               </>
             </AnimatePresence>
           </div>
@@ -643,6 +662,15 @@ const Home = ({ data }: { data: any }) => {
       </div>
     </main>
   );
+};
+
+const variants = {
+  initial: {
+    x: 0,
+  },
+  start: {
+    opacity: 0,
+  },
 };
 
 const HOMEPAGE_QUERY = `query MyQuery {

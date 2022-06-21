@@ -16,6 +16,9 @@
   position: relative;
   overflow: hidden;
   cursor: pointer;
+
+  opacity: 0;
+  transform: translateY(-50%);
 }
 
 .link:hover::after {
