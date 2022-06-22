@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import { InferGetStaticPropsType } from "next";
 import { Image, ResponsiveImageType } from "react-datocms";
 import styles from "../styles/Home.module.css";
 import { motion, useAnimation, useDragControls } from "framer-motion";
@@ -19,6 +20,9 @@ import LTIcon from "../assets/lt.svg";
 import { useInView } from "react-intersection-observer";
 
 import { AnimatePresence } from "../components/AnimatePresence";
+
+import { MyQuery } from "../test";
+import { MyQueryQuery } from "../generated/graphql";
 
 type Props = {
   query: any;
@@ -67,7 +71,7 @@ export function request({ query, variables, preview }: Props) {
   return client.request(query, variables);
 }
 
-const Home = ({ data }: { data: any }) => {
+const Home = ({ data }: { data: MyQueryQuery }) => {
   console.log(data);
   const [view, setView] = useState<"work" | "education">("work");
 
@@ -352,7 +356,7 @@ const Home = ({ data }: { data: any }) => {
           <div id="hero-image" className="hidden sm:block">
             <Image
               usePlaceholder={false}
-              data={data.allUploads[0].responsiveImage}
+              data={data.allUploads[0].responsiveImage as ResponsiveImageType}
               pictureClassName="rounded-3xl"
             />
           </div>
@@ -674,26 +678,26 @@ const variants = {
   },
 };
 
-const HOMEPAGE_QUERY = `query MyQuery {
-  allUploads(filter: {id: {eq: "7701728"}}) {
-    responsiveImage(imgixParams: { fit: crop, w: 500, h: 600, auto: format }) {
-        srcSet
-        webpSrcSet
-        sizes
-        src
-        width
-        height
-        aspectRatio
-        alt
-        title
-        base64
-      }
-  }
-}`;
+// const HOMEPAGE_QUERY = `query MyQuery {
+//   allUploads(filter: {id: {eq: "7701728"}}) {
+//     responsiveImage(imgixParams: { fit: crop, w: 500, h: 600, auto: format }) {
+//         srcSet
+//         webpSrcSet
+//         sizes
+//         src
+//         width
+//         height
+//         aspectRatio
+//         alt
+//         title
+//         base64
+//       }
+//   }
+// }`;
 
 export const getStaticProps = async () => {
   const data = await request({
-    query: HOMEPAGE_QUERY,
+    query: MyQuery,
     variables: { limit: 10 },
   } as Props);
   return {
