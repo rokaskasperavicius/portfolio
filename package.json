@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "predev": "npm run codegen",
+    "prebuild": "npm run codegen",
     "codegen": "graphql-codegen -r dotenv/config --config codegen.yml"
   },
   "dependencies": {
