@@ -3,6 +3,8 @@ schema:
   - https://graphql.datocms.com:
       headers:
         Authorization: ${NEXT_DATOCMS_API_TOKEN}
+config:
+  namingConvention: keep
 documents: "src/**/*.ts"
 generates:
   src/generated/graphql.ts:
