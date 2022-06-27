@@ -66,17 +66,6 @@ function MyApp({ Component, pageProps, router }: AppProps) {
               Projects
             </motion.a>
           </Link>
-          <Link href="/email">
-            <motion.a
-              className={clsx(styles.link, {
-                "font-bold": path === "/email",
-              })}
-              animate={{ y: [-20, 0], opacity: [0, 1] }}
-              transition={{ delay: 2 }}
-            >
-              Say Hi
-            </motion.a>
-          </Link>
         </div>
       </header>
       <motion.div

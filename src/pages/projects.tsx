@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import NextImage from "next/image";
 import { useEffect } from "react";
 import styles from "../styles/Home.module.css";
 import { Image, ResponsiveImageType } from "react-datocms";
@@ -24,6 +25,7 @@ import clsx from "clsx";
 import { motion, useAnimation } from "framer-motion";
 import { GraphQLClient } from "graphql-request";
 import { GetProductsQuery } from "../test";
+import RightArrowIcon from "../assets/arrow-right.svg";
 
 const Home = ({ data }: { data: any }) => {
   const control = useAnimation();
@@ -60,6 +62,7 @@ const Home = ({ data }: { data: any }) => {
         console.log(error);
       });
   }, []);
+  console.log(allProjects);
 
   return (
     <main className={clsx(styles.main, "max-w-7xl m-auto")}>
@@ -70,46 +73,59 @@ const Home = ({ data }: { data: any }) => {
         Throughout my programming career I have experimented with a lot of
         different front-end technologies for both university and hobby projects.
       </p>
-      {allProjects.map((project: any, index: number) => (
-        <AnimatePresence key={index} position="left" delay={0.3}>
-          <motion.div
-            animate={control}
-            className="flex lg:flex-row flex-col sm:gap-8 gap-2 sm:border sm:border-black sm:rounded-2xl sm:shadow-right-full sm:p-5 sm:hover:bg-gray-50"
+      <div className="sm:space-y-8 space-y-12">
+        {allProjects.map((project: any, index: number) => (
+          <AnimatePresence
+            key={index}
+            position={index % 2 === 0 ? "left" : "right"}
+            delay={0.3}
           >
-            <motion.a
-              className="cursor-pointer"
-              target="_blank"
-              href="https://geocoding-digital-systems.herokuapp.com/"
-              onTapStart={() => control.start({ scale: 0.98 })}
-              onTap={() => control.start({ scale: 1 })}
+            <motion.div
+              animate={control}
+              className="flex lg:flex-row flex-col sm:gap-8 gap-2 sm:border sm:border-black sm:rounded-2xl sm:shadow-right-full sm:p-5"
             >
-              <h2 className="text-xl">{project.title}</h2>
-              <p className="mt-2">{project.subtitle}</p>
-            </motion.a>
-            <Swiper
-              navigation={true}
-              loop={true}
-              mousewheel={true}
-              modules={[Navigation, Pagination, Keyboard]}
-              keyboard={{
-                enabled: true,
-              }}
-              className="lg:w-2/3 w-full flex-shrink-0"
-              pagination={{
-                dynamicBullets: true,
-                clickable: true,
-              }}
-            >
-              {project.images.map((image: any, index: any) => (
-                <SwiperSlide key={index}>
-                  <Image data={image.responsiveImage} />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </motion.div>
-        </AnimatePresence>
-      ))}
-
+              {/* <motion.a
+                className="cursor-pointer"
+                target="_blank"
+                href="https://geocoding-digital-systems.herokuapp.com/"
+                onTapStart={() => control.start({ scale: 0.98 })}
+                onTap={() => control.start({ scale: 1 })}
+              > */}
+              <div>
+                <h2 className="text-xl">{project.title}</h2>
+                <p className="mt-2 max-h-[400px] overflow-y-scroll">
+                  {project.subtitle}
+                </p>
+              </div>
+              {/* </motion.a> */}
+              <div className="lg:w-2/3 w-full flex gap-3 flex-col justify-between items-end">
+                <AnimatedLink url={project.link[0].url} />
+                <Swiper
+                  navigation={true}
+                  loop={true}
+                  mousewheel={true}
+                  modules={[Navigation, Pagination, Keyboard]}
+                  keyboard={{
+                    enabled: true,
+                  }}
+                  pagination={{
+                    dynamicBullets: true,
+                    clickable: true,
+                  }}
+                  className="w-full"
+                >
+                  {project.images.map((image: any, index: any) => (
+                    <SwiperSlide key={index}>
+                      <Image data={image.responsiveImage} />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+                <div />
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        ))}
+      </div>
       {/* <AnimatePresence position="right" className="mt-8">
         <motion.div
           animate={control}
@@ -163,6 +179,27 @@ const Home = ({ data }: { data: any }) => {
         </motion.div>
       </AnimatePresence> */}
     </main>
+  );
+};
+
+const AnimatedLink = ({ url }: { url: string }) => {
+  const control = useAnimation();
+
+  return (
+    <div className="flex gap-3">
+      <motion.a
+        href={url}
+        target="_blank"
+        onHoverStart={() => control.start({ x: 10 })}
+        onHoverEnd={() => control.start({ x: 0 })}
+        className="underline cursor-pointer"
+      >
+        Visit the website
+      </motion.a>
+      <motion.div animate={control} className="flex">
+        <NextImage src={RightArrowIcon} />
+      </motion.div>
+    </div>
   );
 };
 

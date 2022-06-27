@@ -647,15 +647,17 @@ const Home = ({ data }: { data: MyQueryQuery }) => {
                   talk 👋
                 </p>
                 <div className="flex gap-3">
-                  <Link href="/email" passHref>
-                    <motion.a
-                      onHoverStart={() => rightP.start({ x: 10 })}
-                      onHoverEnd={() => rightP.start({ x: 0 })}
-                      className="underline cursor-pointer"
-                    >
-                      Write to me
-                    </motion.a>
-                  </Link>
+                  {/* <Link href="/email" passHref> */}
+                  <motion.a
+                    href="mailto:hello@rokaskasperavicius.dev"
+                    target="_blank"
+                    onHoverStart={() => rightP.start({ x: 10 })}
+                    onHoverEnd={() => rightP.start({ x: 0 })}
+                    className="underline cursor-pointer"
+                  >
+                    Write to me
+                  </motion.a>
+                  {/* </Link> */}
                   <motion.div animate={rightP} className="flex">
                     <NextImage src={RightArrowIcon} />
                   </motion.div>

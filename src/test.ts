@@ -40,6 +40,9 @@ export const GetProductsQuery = gql`
           base64
         }
       }
+      link {
+        url
+      }
     }
   }
 `;
