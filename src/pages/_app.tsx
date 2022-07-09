@@ -1,5 +1,6 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import Head from "next/head";
@@ -16,23 +17,8 @@ Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
-function MyApp({ Component, pageProps, router }: AppProps) {
-  useEffect(() => {
-    // NProgress.set(0.4);
-    // const handleRouteStart = () => NProgress.start();
-    // const handleRouteDone = () => NProgress.done();
-    // Router.events.on("routeChangeStart", handleRouteStart);
-    // Router.events.on("routeChangeComplete", handleRouteDone);
-    // Router.events.on("routeChangeError", handleRouteDone);
-    // return () => {
-    //   // Make sure to remove the event handler on unmount!
-    //   Router.events.off("routeChangeStart", handleRouteStart);
-    //   Router.events.off("routeChangeComplete", handleRouteDone);
-    //   Router.events.off("routeChangeError", handleRouteDone);
-    // };
-  }, []);
-
-  const path = router.asPath;
+function MyApp({ Component, pageProps }: AppProps) {
+  const { locale, locales, asPath: path, route } = useRouter();
 
   return (
     <div className={styles.container}>
@@ -66,11 +52,20 @@ function MyApp({ Component, pageProps, router }: AppProps) {
               Projects
             </motion.a>
           </Link>
+          {locales?.map((l, i) => {
+            return (
+              <span key={i} className={l === locale ? styles.selected : ""}>
+                <Link href={path} locale={l}>
+                  {l}
+                </Link>
+              </span>
+            );
+          })}
         </div>
       </header>
       <motion.div
         className="flex-1"
-        key={router.route}
+        key={route}
         initial="initial"
         animate="animate"
         transition={{

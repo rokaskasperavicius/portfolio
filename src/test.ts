@@ -22,8 +22,8 @@ export const MyQuery = gql`
 `;
 
 export const GetProductsQuery = gql`
-  query GetProductsQuery {
-    allProjects {
+  query GetProductsQuery($locale: SiteLocale) {
+    allProjects(locale: $locale) {
       title
       subtitle
       images {

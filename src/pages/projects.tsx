@@ -1,4 +1,4 @@
-import type { NextPage } from "next";
+import type { NextPage, GetStaticProps } from "next";
 import NextImage from "next/image";
 import { useEffect } from "react";
 import styles from "../styles/Home.module.css";
@@ -30,39 +30,38 @@ import RightArrowIcon from "../assets/arrow-right.svg";
 const Home = ({ data }: { data: any }) => {
   const control = useAnimation();
   const { allProjects } = data;
-  console.log(allProjects);
 
-  useEffect(() => {
-    // fetch("https://graphql.datocms.com", {
-    //   method: "post",
-    //   headers: new Headers({
-    //     Authorization: "Bearer e6b16c02f5e202b9db0cbba2f2de82",
-    //   }),
-    //   body: JSON.stringify({
-    //     query: "{ allProjects { title } }",
-    //   }),
-    // });
+  // useEffect(() => {
+  //   // fetch("https://graphql.datocms.com", {
+  //   //   method: "post",
+  //   //   headers: new Headers({
+  //   //     Authorization: "Bearer e6b16c02f5e202b9db0cbba2f2de82",
+  //   //   }),
+  //   //   body: JSON.stringify({
+  //   //     query: "{ allProjects { title } }",
+  //   //   }),
+  //   // });
 
-    fetch("https://graphql.datocms.com/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer e6b16c02f5e202b9db0cbba2f2de82`,
-      },
-      body: JSON.stringify({
-        query: "{ allProjects { title } }",
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-  console.log(allProjects);
+  //   fetch("https://graphql.datocms.com/", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Accept: "application/json",
+  //       Authorization: `Bearer e6b16c02f5e202b9db0cbba2f2de82`,
+  //     },
+  //     body: JSON.stringify({
+  //       query: "{ allProjects { title } }",
+  //     }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       console.log(res.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
+  // console.log(allProjects);
 
   return (
     <main className={clsx(styles.main, "max-w-7xl m-auto")}>
@@ -82,7 +81,7 @@ const Home = ({ data }: { data: any }) => {
           >
             <motion.div
               animate={control}
-              className="flex lg:flex-row flex-col sm:gap-8 gap-2 sm:border sm:border-black sm:rounded-2xl sm:shadow-right-full sm:p-5"
+              className="flex justify-between lg:flex-row flex-col sm:gap-8 gap-2 sm:border sm:border-black sm:rounded-2xl sm:shadow-right-full sm:p-5"
             >
               {/* <motion.a
                 className="cursor-pointer"
@@ -221,10 +220,10 @@ export function request({ query, variables, preview }: Props) {
   return client.request(query, variables);
 }
 
-export const getStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const data = await request({
     query: GetProductsQuery,
-    variables: { limit: 10 },
+    variables: { limit: 10, locale },
   } as Props);
   return {
     props: { data },

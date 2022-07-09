@@ -72,7 +72,6 @@ export function request({ query, variables, preview }: Props) {
 }
 
 const Home = ({ data }: { data: MyQueryQuery }) => {
-  console.log(data);
   const [view, setView] = useState<"work" | "education">("work");
 
   const [expOptions, setExpOptions] = useState<ExpOption[]>([]);
