@@ -61,9 +61,8 @@ function MyApp({ Component, pageProps }: AppProps) {
               <motion.div
                 key={i}
                 className="flex"
-                whileHover={{
-                  y: l !== locale ? -2 : 0,
-                }}
+                animate={{ y: [-20, 0], opacity: [0, 1] }}
+                transition={{ delay: 2 + 0.5 * i }}
               >
                 <Link passHref href={path} locale={l}>
                   <NextImage
