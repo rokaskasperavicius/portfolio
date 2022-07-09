@@ -11,6 +11,10 @@ import clsx from "clsx";
 import Router from "next/router";
 import NProgress from "nprogress";
 
+import GBIcon from "../assets/gb.svg";
+import LTIcon from "../assets/lt.svg";
+import NextImage from "next/image";
+
 import "nprogress/nprogress.css";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
@@ -54,11 +58,24 @@ function MyApp({ Component, pageProps }: AppProps) {
           </Link>
           {locales?.map((l, i) => {
             return (
-              <span key={i} className={l === locale ? styles.selected : ""}>
-                <Link href={path} locale={l}>
-                  {l}
+              <motion.div
+                key={i}
+                className="flex"
+                whileHover={{
+                  y: l !== locale ? -2 : 0,
+                }}
+              >
+                <Link passHref href={path} locale={l}>
+                  <NextImage
+                    src={l === "en" ? GBIcon : LTIcon}
+                    className={clsx("cursor-pointer", {
+                      "pointer-events-none": l === locale,
+                    })}
+                    width={24}
+                    height={18}
+                  />
                 </Link>
-              </span>
+              </motion.div>
             );
           })}
         </div>

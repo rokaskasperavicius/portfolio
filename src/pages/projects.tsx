@@ -74,11 +74,7 @@ const Home = ({ data }: { data: any }) => {
       </p>
       <div className="sm:space-y-8 space-y-12">
         {allProjects.map((project: any, index: number) => (
-          <AnimatePresence
-            key={index}
-            position={index % 2 === 0 ? "left" : "right"}
-            delay={0.3}
-          >
+          <AnimatePresence key={index} position={"bottom"} delay={0.3}>
             <motion.div
               animate={control}
               className="flex justify-between lg:flex-row flex-col sm:gap-8 gap-2 sm:border sm:border-black sm:rounded-2xl sm:shadow-right-full sm:p-5"

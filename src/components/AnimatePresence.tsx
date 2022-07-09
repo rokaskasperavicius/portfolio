@@ -4,7 +4,7 @@ import { useInView } from "react-intersection-observer";
 
 type Props = {
   children: JSX.Element;
-  position: "left" | "right";
+  position: "left" | "right" | "bottom";
   className?: string;
   threshold?: number;
   delay?: number;
@@ -29,6 +29,26 @@ export const AnimatePresence = ({
     }
   }, [inView, control]);
 
+  let hidden = {};
+
+  switch (position) {
+    case "right":
+      hidden = {
+        x: 100,
+      };
+      break;
+    case "left":
+      hidden = {
+        x: -100,
+      };
+      break;
+    case "bottom":
+      hidden = {
+        y: 100,
+      };
+      break;
+  }
+
   return (
     <motion.div
       ref={ref}
@@ -37,10 +57,11 @@ export const AnimatePresence = ({
       variants={{
         visible: {
           x: 0,
+          y: 0,
           opacity: 1,
         },
         hidden: {
-          x: position === "right" ? 100 : -100,
+          ...hidden,
           opacity: 0,
         },
       }}
