@@ -112,7 +112,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
         </a> */}
-        &copy; 2022. All Rights Reserved.
+        &copy; 2023. All Rights Reserved.
       </footer>
     </div>
   );

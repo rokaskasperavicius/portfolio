@@ -272,7 +272,7 @@ const Home = ({ data }: { data: MyQueryQuery }) => {
             <div className="flex gap-4">
               <motion.div
                 whileHover={{
-                  scale: 1.2,
+                  scale: 1.1,
                 }}
               >
                 <a
@@ -293,7 +293,7 @@ const Home = ({ data }: { data: MyQueryQuery }) => {
               </motion.div>
               <motion.div
                 whileHover={{
-                  scale: 1.2,
+                  scale: 1.1,
                 }}
               >
                 <a
@@ -362,10 +362,7 @@ const Home = ({ data }: { data: MyQueryQuery }) => {
         </div>
       </div>
       <div>
-        <AnimatePresence
-          position="left"
-          className="lg:w-2/3 sm:border sm:border-black sm:rounded-2xl sm:p-5 sm:shadow-right-full"
-        >
+        <AnimatePresence position="left" className="lg:w-2/3">
           <>
             <h2 className="sm:text-2xl text-xl">About me</h2>
             <p className="sm:mt-4 mt-2">
@@ -622,7 +619,7 @@ const Home = ({ data }: { data: MyQueryQuery }) => {
                 <div className="flex gap-3">
                   <Link href="/projects" passHref>
                     <motion.a
-                      onHoverStart={() => leftP.start({ x: 10 })}
+                      onHoverStart={() => leftP.start({ x: 5 })}
                       onHoverEnd={() => leftP.start({ x: 0 })}
                       className="underline cursor-pointer"
                     >
@@ -650,7 +647,7 @@ const Home = ({ data }: { data: MyQueryQuery }) => {
                   <motion.a
                     href="mailto:hello@rokaskasperavicius.dev"
                     target="_blank"
-                    onHoverStart={() => rightP.start({ x: 10 })}
+                    onHoverStart={() => rightP.start({ x: 5 })}
                     onHoverEnd={() => rightP.start({ x: 0 })}
                     className="underline cursor-pointer"
                   >
