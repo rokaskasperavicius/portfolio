@@ -65,7 +65,7 @@ const Home = ({ data }: { data: any }) => {
   // console.log(allProjects);
 
   const Block = ({ text }: { text: string }) => (
-    <span className="bg-[#ff5208] text-white px-2 py-1 min-w-[80px] flex items-center justify-center rounded-md">
+    <span className="bg-primary text-white px-2 py-1 min-w-[80px] flex items-center justify-center rounded-md">
       {text}
     </span>
   );
@@ -73,7 +73,7 @@ const Home = ({ data }: { data: any }) => {
   return (
     <main className={clsx(styles.main, "max-w-7xl m-auto")}>
       <h1 className="mt-8 sm:mt-16 text-2xl">
-        Recent <span className="text-[#ff5208]">projects</span>
+        Recent <span className="text-primary">projects</span>
       </h1>
       <p className="mt-2 mb-8 lg:w-1/2 sm:w-2/3 w-full">
         Throughout my programming career I have experimented with a lot of

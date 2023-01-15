@@ -214,7 +214,7 @@ const Home = ({ data, data1 }: { data: MyQueryQuery; data1: MyQueryQuery }) => {
   console.log(data1);
 
   const Block = ({ text }: { text: string }) => (
-    <span className="bg-[#ff5208] text-white px-2 py-1 min-w-[80px] flex items-center justify-center rounded-md">
+    <span className="bg-primary text-white px-2 py-1 min-w-[80px] flex items-center justify-center rounded-md">
       {text}
     </span>
   );
@@ -255,10 +255,13 @@ const Home = ({ data, data1 }: { data: MyQueryQuery; data1: MyQueryQuery }) => {
       </div> */}
 
       <div className="h-[calc(100vh-56px)] flex flex-col justify-center">
-        <div className="flex flex-col-reverse lg:flex-row items-center lg:items-stretch justify-around lg:gap-6 gap-14 mt-[-80px] sm:mt-8 lg:mt-0">
+        <div className="flex flex-col-reverse lg:flex-row items-center lg:items-stretch justify-center lg:gap-6 gap-14 mt-[-80px] sm:mt-8 lg:mt-0">
           <div className="flex justify-between text-2xl sm:text-3xl flex-col sm:flex-row lg:flex-col gap-10 lg:gap-0 items-start sm:items-end lg:items-start">
             <div className="hidden lg:block"></div>
-            <div id="hero-text">
+            <div
+              id="hero-text"
+              className="bg-[#fffdfc] mr-[-100px] z-10 rounded-br p-10 pb-40"
+            >
               <div className="flex gap-[10px]">
                 <div>I am Rokas - </div>
                 <div className="relative">
@@ -272,9 +275,9 @@ const Home = ({ data, data1 }: { data: MyQueryQuery; data1: MyQueryQuery }) => {
                   </div>
                 </div>
               </div>
-              <div className="text-[#ff5208]">front-end developer</div>
+              <div className="text-primary">front-end developer</div>
               <div>
-                with <span className="text-[#ff5208]">3+ years </span> of work
+                with <span className="text-primary">3+ years </span> of work
                 experience.
               </div>
             </div>
@@ -365,7 +368,7 @@ const Home = ({ data, data1 }: { data: MyQueryQuery; data1: MyQueryQuery }) => {
             <Image
               usePlaceholder={false}
               data={data.allUploads[0].responsiveImage as ResponsiveImageType}
-              pictureClassName="rounded-3xl"
+              pictureClassName="rounded-xl"
             />
           </div>
         </div>
@@ -374,7 +377,8 @@ const Home = ({ data, data1 }: { data: MyQueryQuery; data1: MyQueryQuery }) => {
         <AnimatePresence position="left" className="">
           <>
             <h2 className="sm:text-2xl text-xl flex gap-1 justify-center">
-              About Me <span className="text-3xl block">👨</span>
+              About Me
+              {/* <span className="text-3xl block">👨</span> */}
             </h2>
             <div className="flex justify-between gap-6 mt-4">
               <Image
@@ -445,7 +449,8 @@ const Home = ({ data, data1 }: { data: MyQueryQuery; data1: MyQueryQuery }) => {
         <AnimatePresence position="right" className="ml-auto mt-24">
           <>
             <h2 className="sm:text-2xl text-xl flex gap-1 justify-center mb-8">
-              Where I&apos;ve Worked <span className="text-3xl block">👨‍💻</span>
+              Where I Have Worked
+              {/* <span className="text-3xl block">👨‍💻</span> */}
             </h2>
 
             <div className="text-lg border-l border-b border-solid border-gray-300 pl-6 pb-6 rounded space-y-6">
@@ -759,8 +764,8 @@ const Home = ({ data, data1 }: { data: MyQueryQuery; data1: MyQueryQuery }) => {
             <AnimatePresence threshold={0.6} position="left">
               <>
                 <p>
-                  Check my recent{" "}
-                  <span className="text-[#ff5208]">projects</span> 💻
+                  Check my recent <span className="text-primary">projects</span>{" "}
+                  💻
                 </p>
                 <div className="flex gap-3">
                   <Link href="/projects" passHref>
@@ -784,9 +789,9 @@ const Home = ({ data, data1 }: { data: MyQueryQuery; data1: MyQueryQuery }) => {
               <>
                 <p className="mt-0 sm:mt-24">
                   I would love to hear about your{" "}
-                  <span className="text-[#ff5208]">ideas</span> and{" "}
-                  <span className="text-[#ff5208]">projects</span>. Let&#39;s
-                  talk 👋
+                  <span className="text-primary">ideas</span> and{" "}
+                  <span className="text-primary">projects</span>. Let&#39;s talk
+                  👋
                 </p>
                 <div className="flex gap-3">
                   {/* <Link href="/email" passHref> */}

@@ -1,10 +1,11 @@
 import gql from "graphql-tag";
-
+//24875024
+//7701728
 export const MyQuery = gql`
   query MyQuery {
-    allUploads(filter: { id: { eq: "7701728" } }) {
+    allUploads(filter: { id: { eq: "24875024" } }) {
       responsiveImage(
-        imgixParams: { fit: crop, w: 500, h: 600, auto: format }
+        imgixParams: { fit: crop, w: 500, h: 650, auto: format }
       ) {
         srcSet
         webpSrcSet
