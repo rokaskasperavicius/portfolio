@@ -260,7 +260,7 @@ const Home = ({ data, data1 }: { data: MyQueryQuery; data1: MyQueryQuery }) => {
             <div className="hidden lg:block"></div>
             <motion.div
               id="hero-text"
-              className="bg-[#fffdfc] mr-[-100px] z-10 rounded-br p-10 pb-40"
+              className="bg-[#fffdfc] mr-[-100px] z-10 rounded-b p-10 border-l border-b border-solid border-gray-300 space-y-20"
               // className="flex-1"
               // key={route}
               initial="initial"
@@ -284,28 +284,80 @@ const Home = ({ data, data1 }: { data: MyQueryQuery; data1: MyQueryQuery }) => {
               id="hero-text"
               className="bg-[#fffdfc] mr-[-100px] z-10 rounded-br p-10 pb-40"
             > */}
-              <div className="flex gap-[10px]">
-                <div>I am Rokas - </div>
-                <div className="relative">
-                  <div className="absolute top-0 left-0 word">motivated</div>
-                  <div className="absolute top-0 left-0 word1">productive</div>
-                  <div className="absolute top-0 left-0 word2">experienced</div>
-                  <div className="absolute top-0 left-0 word3">confident</div>
-                  <div className="absolute top-0 left-0 word4">consistent</div>
-                  <div className="absolute top-0 left-0 word5 w-[200px]">
-                    open-minded
+              <div>
+                <div className="flex gap-[10px]">
+                  <div>I am Rokas - </div>
+                  <div className="relative">
+                    <div className="absolute top-0 left-0 word">motivated</div>
+                    <div className="absolute top-0 left-0 word1">
+                      productive
+                    </div>
+                    <div className="absolute top-0 left-0 word2">
+                      experienced
+                    </div>
+                    <div className="absolute top-0 left-0 word3">confident</div>
+                    <div className="absolute top-0 left-0 word4">
+                      consistent
+                    </div>
+                    <div className="absolute top-0 left-0 word5 w-[200px]">
+                      open-minded
+                    </div>
                   </div>
                 </div>
+                <div className="text-primary">front-end developer</div>
+                <div>
+                  with <span className="text-primary">4+ years </span> of work
+                  experience.
+                </div>
               </div>
-              <div className="text-primary">front-end developer</div>
-              <div>
-                with <span className="text-primary">4+ years </span> of work
-                experience.
+              <div className="flex gap-2">
+                <motion.div
+                  whileHover={{
+                    scale: 1.1,
+                  }}
+                >
+                  <a
+                    href="https://www.linkedin.com/in/rokas-kasperavi%C4%8Dius-a70458158/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex"
+                  >
+                    <NextImage
+                      title="LinkedIn"
+                      alt="LinkedIn Icon"
+                      className="cursor-pointer"
+                      height={40}
+                      width={40}
+                      src={LinkedInIcon}
+                    />
+                  </a>
+                </motion.div>
+                <motion.div
+                  whileHover={{
+                    scale: 1.1,
+                  }}
+                >
+                  <a
+                    href="https://github.com/rokaskasperavicius"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex"
+                  >
+                    <NextImage
+                      title="Github"
+                      alt="Github Icon"
+                      className="cursor-pointer"
+                      height={40}
+                      width={40}
+                      src={GithubIcon}
+                    />
+                  </a>
+                </motion.div>
               </div>
               {/* </div> */}
             </motion.div>
             <div className="flex gap-4">
-              <motion.div
+              {/* <motion.div
                 whileHover={{
                   scale: 1.1,
                 }}
@@ -346,7 +398,7 @@ const Home = ({ data, data1 }: { data: MyQueryQuery; data1: MyQueryQuery }) => {
                     src={GithubIcon}
                   />
                 </a>
-              </motion.div>
+              </motion.div> */}
               {/* <motion.div
                 whileHover={{
                   scale: 1.2,
