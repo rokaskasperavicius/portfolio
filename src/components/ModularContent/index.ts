@@ -1,0 +1,1 @@
+export { ModularContent } from './ModularContent'

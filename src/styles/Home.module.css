@@ -19,6 +19,8 @@
 
   opacity: 0;
   transform: translateY(-50%);
+
+  text-decoration: none;
 }
 
 .link:hover::after {
@@ -26,7 +28,7 @@
 }
 
 .link::after {
-  content: "";
+  content: '';
   display: block;
   width: 100%;
   bottom: 0;

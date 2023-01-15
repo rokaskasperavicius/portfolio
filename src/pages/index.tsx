@@ -1,270 +1,57 @@
-import type { NextPage } from "next";
-import { InferGetStaticPropsType } from "next";
-import { Image, ResponsiveImageType } from "react-datocms";
-import styles from "../styles/Home.module.css";
-import { motion, useAnimation, useDragControls } from "framer-motion";
-import NextImage from "next/image";
-import clsx from "clsx";
-import Link from "next/link";
+import { motion, useAnimation } from 'framer-motion'
+import NextImage from 'next/image'
+import Link from 'next/link'
 
-import { GraphQLClient } from "graphql-request";
-import { useEffect, useState } from "react";
-import LinkedInIcon from "../assets/linkedin.svg";
-import FacebookIcon from "../assets/facebook.svg";
-import InstagramIcon from "../assets/instagram.svg";
-import GithubIcon from "../assets/github.svg";
-import RightArrowIcon from "../assets/arrow-right.svg";
-import DKIcon from "../assets/dk.svg";
-import LTIcon from "../assets/lt.svg";
+import LinkedInIcon from '../assets/linkedin.svg'
+import GithubIcon from '../assets/github.svg'
+import RightArrowIcon from '../assets/arrow-right.svg'
+// Components
+import { Image as DatoImage } from 'components'
+import { ModularContent } from 'components/ModularContent'
 
-import { useInView } from "react-intersection-observer";
+// Helpers
+import { request } from 'services/graphql'
 
-import { AnimatePresence } from "../components/AnimatePresence";
+// Queries
+import { getHomePage } from 'graphql/queries'
 
-import { MyQuery, MyQuery1 } from "../test";
-import { MyQueryQuery } from "../generated/graphql";
+// Types
+import type { ModularContentRecords } from 'types'
 
-import { Allotment } from "allotment";
-import "allotment/dist/style.css";
+import { AnimatePresence } from '../components/AnimatePresence'
+
+import { GetHomePageQuery } from '../generated/graphql'
 
 type Props = {
-  query: any;
-  variables: any;
-  preview: any;
-};
-
-const exp = [
-  "React.js",
-  "Typescript",
-  "Next.js",
-  "Node.js",
-  "Express.js",
-  "PostgreSQL",
-  "SQLite",
-  "Java",
-  "F#",
-  "C#",
-  "Python",
-  "C++",
-  "DatoCMS",
-  "Postico",
-];
-
-type ExpOption = {
-  x: number;
-  y: number;
-};
-
-function getRandomInt(min: number, max: number) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  data: GetHomePageQuery
 }
 
-export function request({ query, variables, preview }: Props) {
-  const endpoint = preview
-    ? `https://graphql.datocms.com/preview`
-    : `https://graphql.datocms.com/`;
-  const client = new GraphQLClient(endpoint, {
-    headers: {
-      authorization: `Bearer ${process.env.NEXT_DATOCMS_API_TOKEN}`,
-    },
-  });
-  return client.request(query, variables);
-}
-
-const Home = ({ data, data1 }: { data: MyQueryQuery; data1: MyQueryQuery }) => {
-  const [view, setView] = useState<"work" | "education">("work");
-
-  const [expOptions, setExpOptions] = useState<ExpOption[]>([]);
-  const [expOptionsCorner, setExpOptionsCorner] = useState<ExpOption>();
-
-  const leftControl = useAnimation();
-  const rightControl = useAnimation();
-
-  const leftP = useAnimation();
-  const rightP = useAnimation();
-
-  useEffect(() => {
-    if (view === "work") {
-      rightControl.start(() => ({
-        opacity: 0,
-        x: 800, // 400
-      }));
-
-      leftControl.start(() => ({
-        opacity: 1,
-        x: 0,
-      }));
-    } else {
-      rightControl.start(() => ({
-        opacity: 1,
-        x: 0,
-      }));
-
-      leftControl.start(() => ({
-        opacity: 0,
-        x: -800,
-      }));
-    }
-  }, [view, leftControl, rightControl]);
-
-  useEffect(() => {
-    if (window.innerWidth >= 640) {
-      // Constants
-      const yPadding = 200;
-      const headerHeight = 56;
-      const expWidth = 75;
-      const expHeight = 50;
-      const mappedExperience: ExpOption[] = [];
-
-      // Elements
-      const heroText = document.getElementById("hero-text");
-      const heroImage = document.getElementById("hero-image");
-
-      if (heroText && heroImage) {
-        const textRect = heroText.getBoundingClientRect();
-        const imageRect = heroImage.getBoundingClientRect();
-
-        const xBound = imageRect.left - textRect.left - expWidth * 2;
-        const left = 0;
-
-        const yBound = heroText.clientHeight + yPadding;
-        const top = textRect.top - headerHeight - yPadding / 2;
-
-        const xCount = Math.ceil(xBound / expWidth);
-        const yCount = Math.ceil(yBound / expHeight);
-
-        if (xCount * yCount < exp.length) {
-          return;
-        }
-
-        exp.forEach((e) => {
-          let x = -1;
-          let y = -1;
-
-          do {
-            x = getRandomInt(0, xCount);
-            y = getRandomInt(0, yCount);
-          } while (
-            mappedExperience.filter(
-              (mapExp: ExpOption) => mapExp.x === x && mapExp.y === y
-            ).length > 0
-          );
-
-          mappedExperience.push({ x, y });
-        });
-
-        setExpOptions(mappedExperience);
-        setExpOptionsCorner({ x: left, y: top });
-      }
-    } else {
-      // Constants
-      // const yPadding = 200;
-      const headerHeight = 56;
-      const expWidth = 75;
-      const expHeight = 50 + 20;
-      const mappedExperience: ExpOption[] = [];
-
-      // Elements
-      // const heroText = document.getElementById("hero-text");
-      // const heroImage = document.getElementById("hero-image");
-
-      // if (heroText && heroImage) {
-      // const textRect = heroText.getBoundingClientRect();
-      // const imageRect = heroImage.getBoundingClientRect();
-
-      const xBound = window.innerWidth - expWidth;
-      const left = 0;
-
-      console.log(xBound);
-
-      const yBound = window.innerHeight - expHeight - 300;
-      const top = expHeight;
-
-      const xCount = Math.floor(xBound / expWidth);
-      const yCount = Math.floor(yBound / expHeight);
-
-      if (xCount * yCount < exp.length) {
-        return;
-      }
-
-      exp.forEach((e) => {
-        let x = -1;
-        let y = -1;
-
-        do {
-          x = getRandomInt(0, xCount);
-          y = getRandomInt(0, yCount);
-        } while (
-          mappedExperience.filter(
-            (mapExp: ExpOption) => mapExp.x === x && mapExp.y === y
-          ).length > 0
-        );
-
-        mappedExperience.push({ x, y });
-      });
-
-      setExpOptions(mappedExperience);
-      setExpOptionsCorner({ x: left, y: top });
-    }
-    // }
-  }, []);
-  console.log(data1);
+const Home = ({ data }: Props) => {
+  const leftP = useAnimation()
+  const rightP = useAnimation()
 
   const Block = ({ text }: { text: string }) => (
-    <span className="bg-primary text-white px-2 py-1 min-w-[80px] flex items-center justify-center rounded-md">
+    <span className='bg-primary text-white px-2 py-1 min-w-[80px] flex items-center justify-center rounded-md'>
       {text}
     </span>
-  );
+  )
+
+  const { homePage } = data
+  const heroImage = homePage?.heroImage?.responsiveImage
+
+  if (!homePage || !heroImage) return null
 
   return (
-    <main className="relative max-w-7xl m-auto">
-      {/* <div className="text-xs displ">
-        {expOptions.length > 0 &&
-          expOptionsCorner &&
-          exp.map((e, index) => {
-            const num = getRandomInt(0, 3);
-            return (
-              <>
-                <motion.span
-                  key={e}
-                  className={clsx("absolute text-gray-200 z-[-1]", {
-                    "text-[10px]": num === 0,
-                    "text-xs": num === 1,
-                    "text-sm": num === 2,
-                  })}
-                  animate={{ y: [0, 20, 0] }}
-                  transition={{
-                    repeat: Infinity,
-                    duration: getRandomInt(5, 7), // 4, 7
-                    delay: getRandomInt(0, 3),
-                  }}
-                  style={{
-                    top: (expOptions[index] as any).y * 50 + expOptionsCorner.y,
-                    left:
-                      (expOptions[index] as any).x * 75 + expOptionsCorner.x,
-                  }}
-                >
-                  {e}
-                </motion.span>
-              </>
-            );
-          })}
-      </div> */}
-
-      <div className="h-[calc(100vh-56px)] flex flex-col justify-center">
-        <div className="flex flex-col-reverse lg:flex-row items-center lg:items-stretch justify-center lg:gap-6 gap-14 mt-[-80px] sm:mt-8 lg:mt-0">
-          <div className="flex justify-between text-2xl sm:text-3xl flex-col sm:flex-row lg:flex-col gap-10 lg:gap-0 items-start sm:items-end lg:items-start">
-            <div className="hidden lg:block"></div>
+    <main className='relative after:absolute after:right-0 after:top-0 after:w-[1px] after:bg-gray-200 main-index before:absolute before:top-0 before:left-0 before:h-[1px] before:bg-gray-200 '>
+      <div className='h-[calc(100vh-56px)] flex flex-col justify-center'>
+        <div className='flex flex-col-reverse lg:flex-row items-center lg:items-stretch justify-center lg:gap-6 gap-14 mt-[-80px] sm:mt-8 lg:mt-0'>
+          <div className='flex justify-between text-2xl sm:text-3xl flex-col sm:flex-row lg:flex-col gap-10 lg:gap-0 items-start sm:items-end lg:items-start'>
+            <div className='hidden lg:block'></div>
             <motion.div
-              id="hero-text"
-              className="bg-[#fffdfc] mr-[-100px] z-10 rounded-b p-10 border-l border-b border-solid border-gray-300 space-y-20"
-              // className="flex-1"
-              // key={route}
-              initial="initial"
-              animate="animate"
+              id='hero-text'
+              className='bg-[#fffdfc] z-10 rounded-bl p-10 border-l border-b border-solid border-gray-300 space-y-20 mr-[-100px]'
+              initial='initial'
+              animate='animate'
               transition={{
                 duration: 0.5,
                 delay: 0.5,
@@ -280,52 +67,48 @@ const Home = ({ data, data1 }: { data: MyQueryQuery; data1: MyQueryQuery }) => {
                 },
               }}
             >
-              {/* <div
-              id="hero-text"
-              className="bg-[#fffdfc] mr-[-100px] z-10 rounded-br p-10 pb-40"
-            > */}
               <div>
-                <div className="flex gap-[10px]">
+                <div className='flex gap-[10px]'>
                   <div>I am Rokas - </div>
-                  <div className="relative">
-                    <div className="absolute top-0 left-0 word">motivated</div>
-                    <div className="absolute top-0 left-0 word1">
+                  <div className='relative'>
+                    <div className='absolute top-0 left-0 word'>motivated</div>
+                    <div className='absolute top-0 left-0 word1'>
                       productive
                     </div>
-                    <div className="absolute top-0 left-0 word2">
+                    <div className='absolute top-0 left-0 word2'>
                       experienced
                     </div>
-                    <div className="absolute top-0 left-0 word3">confident</div>
-                    <div className="absolute top-0 left-0 word4">
+                    <div className='absolute top-0 left-0 word3'>confident</div>
+                    <div className='absolute top-0 left-0 word4'>
                       consistent
                     </div>
-                    <div className="absolute top-0 left-0 word5 w-[200px]">
+                    <div className='absolute top-0 left-0 word5 w-[200px]'>
                       open-minded
                     </div>
                   </div>
                 </div>
-                <div className="text-primary">front-end developer</div>
+                <div className='text-primary'>front-end developer</div>
                 <div>
-                  with <span className="text-primary">4+ years </span> of work
+                  with <span className='text-primary'>4+ years </span> of work
                   experience.
                 </div>
               </div>
-              <div className="flex gap-2">
+              <div className='flex gap-2'>
                 <motion.div
                   whileHover={{
                     scale: 1.1,
                   }}
                 >
                   <a
-                    href="https://www.linkedin.com/in/rokas-kasperavi%C4%8Dius-a70458158/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex"
+                    href='https://www.linkedin.com/in/rokas-kasperavi%C4%8Dius-a70458158/'
+                    target='_blank'
+                    rel='noreferrer'
+                    className='flex'
                   >
                     <NextImage
-                      title="LinkedIn"
-                      alt="LinkedIn Icon"
-                      className="cursor-pointer"
+                      title='LinkedIn'
+                      alt='LinkedIn Icon'
+                      className='cursor-pointer'
                       height={40}
                       width={40}
                       src={LinkedInIcon}
@@ -338,15 +121,15 @@ const Home = ({ data, data1 }: { data: MyQueryQuery; data1: MyQueryQuery }) => {
                   }}
                 >
                   <a
-                    href="https://github.com/rokaskasperavicius"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex"
+                    href='https://github.com/rokaskasperavicius'
+                    target='_blank'
+                    rel='noreferrer'
+                    className='flex'
                   >
                     <NextImage
-                      title="Github"
-                      alt="Github Icon"
-                      className="cursor-pointer"
+                      title='Github'
+                      alt='Github Icon'
+                      className='cursor-pointer'
                       height={40}
                       width={40}
                       src={GithubIcon}
@@ -354,106 +137,15 @@ const Home = ({ data, data1 }: { data: MyQueryQuery; data1: MyQueryQuery }) => {
                   </a>
                 </motion.div>
               </div>
-              {/* </div> */}
             </motion.div>
-            <div className="flex gap-4">
-              {/* <motion.div
-                whileHover={{
-                  scale: 1.1,
-                }}
-              >
-                <a
-                  href="https://www.linkedin.com/in/rokas-kasperavi%C4%8Dius-a70458158/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex"
-                >
-                  <NextImage
-                    title="LinkedIn"
-                    alt="LinkedIn Icon"
-                    className="cursor-pointer"
-                    height={40}
-                    width={40}
-                    src={LinkedInIcon}
-                  />
-                </a>
-              </motion.div>
-              <motion.div
-                whileHover={{
-                  scale: 1.1,
-                }}
-              >
-                <a
-                  href="https://github.com/rokaskasperavicius"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex"
-                >
-                  <NextImage
-                    title="Github"
-                    alt="Github Icon"
-                    className="cursor-pointer"
-                    height={40}
-                    width={40}
-                    src={GithubIcon}
-                  />
-                </a>
-              </motion.div> */}
-              {/* <motion.div
-                whileHover={{
-                  scale: 1.2,
-                }}
-              >
-                <a
-                  href="https://www.facebook.com/Rokas192"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex"
-                >
-                  <NextImage
-                    className="cursor-pointer"
-                    height={40}
-                    width={40}
-                    src={FacebookIcon}
-                  />
-                </a>
-              </motion.div>
-              <motion.div
-                whileHover={{
-                  scale: 1.2,
-                }}
-              >
-                <a
-                  href="https://www.instagram.com/kasperavicius_rokas/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex"
-                >
-                  <NextImage
-                    className="cursor-pointer"
-                    height={40}
-                    width={40}
-                    src={InstagramIcon}
-                  />
-                </a>
-              </motion.div> */}
-            </div>
-          </div>
-          {/* <div id="hero-image" className="hidden sm:block">
-            <Image
-              usePlaceholder={false}
-              data={data.allUploads[0].responsiveImage as ResponsiveImageType}
-              pictureClassName="rounded-xl"
-            />
-          </div> */}
 
+            <div />
+          </div>
           <motion.div
-            id="hero-image"
-            className="hidden sm:block"
-            // className="flex-1"
-            // key={route}
-            initial="initial"
-            animate="animate"
+            id='hero-image'
+            className='hidden sm:block'
+            initial='initial'
+            animate='animate'
             transition={{
               duration: 0.5,
             }}
@@ -468,419 +160,36 @@ const Home = ({ data, data1 }: { data: MyQueryQuery; data1: MyQueryQuery }) => {
               },
             }}
           >
-            <Image
-              usePlaceholder={false}
-              data={data.allUploads[0].responsiveImage as ResponsiveImageType}
-              pictureClassName="rounded-xl"
-            />
+            <DatoImage image={heroImage} className='rounded-xl' />
           </motion.div>
         </div>
       </div>
-      <div className="mt-20">
-        <AnimatePresence position="left" className="">
-          <>
-            <h2 className="sm:text-2xl text-xl flex gap-1 justify-center">
-              About Me
-              {/* <span className="text-3xl block">👨</span> */}
-            </h2>
-            <div className="flex justify-between gap-6 mt-4">
-              <Image
-                className="flex-shrink-0 self-start"
-                usePlaceholder={false}
-                data={
-                  data1.allUploads[0].responsiveImage as ResponsiveImageType
-                }
-                pictureClassName="rounded"
-              />
-              <div className="text-lg border-r border-b border-solid border-gray-300 pr-2 rounded">
-                <p className="sm:mt-4 mt-2">
-                  My full name is Rokas Kasperavicius. I am 21 year old
-                  Lithuanian who is currently studying Computer Science &
-                  Mathematics Bachelor at{" "}
-                  <a
-                    href="https://ruc.dk/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="underline"
-                  >
-                    Roskilde University
-                  </a>{" "}
-                  in Denmark. Parallel to doing the studies I have been working
-                  as a part-time front-end developer at{" "}
-                  <a
-                    href="https://adaptagency.com/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="underline"
-                  >
-                    Adaptagency
-                  </a>{" "}
-                  for over a year.
-                </p>
-                <p className="my-2">Technologies I am experienced with:</p>
-
-                {/* <ul className="list-disc list-inside inline-grid gap-x-8 grid-cols-[auto_auto] mt-2">
-                  <li>React.js</li>
-                  <li>Typescript</li>
-                  <li>Next.js</li>
-                  <li>HTML / CSS / Javascript</li>
-                  <li>Node.js</li>
-                  <li>Express.js</li>
-                  <li>PostgreSQL</li>
-                  <li>SQLite</li>
-                  <li>Java</li>
-                  <li>F#</li>
-                  <li>C#</li>
-                  <li>Python</li>
-                  <li>C++</li>
-                  <li>DatoCMS</li>
-                  <li>Postico</li>
-                </ul> */}
-                <div className="flex gap-1">
-                  <Block text="React.js" />
-                  <Block text="Typescript" />
-                  <Block text="Next.js" />
-                  <Block text="Node.js" />
-                  <Block text="PostgreSQL" />
-                  <Block text="Java" />
-                  <Block text="DatoCMS" />
-                </div>
-              </div>
-            </div>
-          </>
-        </AnimatePresence>
-        <AnimatePresence position="right" className="ml-auto mt-24">
-          <>
-            <h2 className="sm:text-2xl text-xl flex gap-1 justify-center mb-8">
-              Where I Have Worked
-              {/* <span className="text-3xl block">👨‍💻</span> */}
-            </h2>
-
-            <div className="text-lg border-l border-b border-solid border-gray-300 pl-6 pb-6 rounded space-y-6">
-              <div>
-                <h3>
-                  Front-end Developer @{" "}
-                  <span className="underline">Adaptagency</span>
-                </h3>
-                <p className="text-base text-gray-400">2019 - Present</p>
-                <p className="text-base mt-2">
-                  Creating mobile-first solutions for variety of companies.
-                </p>
-              </div>
-
-              <div className="h-[1px] w-3/4 bg-gray-200" />
-
-              <div>
-                <h3>
-                  Front-end Internships @{" "}
-                  <span className="underline">Adaptagency</span>
-                </h3>
-                <p className="text-base text-gray-400">2018 - 2019</p>
-                <p className="text-base mt-2">
-                  Learning front-end development from experienced engineers.
-                </p>
-              </div>
-            </div>
-
-            {/* <div className="text-lg border-l border-b border-solid border-gray-300 pl-6 pb-6 rounded">
-              <div>
-                <h4 className="w-full flex gap-4 justify-between sm:text-xl text-lg">
-                  <span className="flex flex-grow basis-0">2020 - Present</span>
-                  <div className="flex flex-grow gap-4 sm:gap-3 justify-end items-start">
-                    <p className="text-right">
-                      Front-end part-time developer @{" "}
-                      <a
-                        href="https://adaptagency.com/"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="underline"
-                      >
-                        Adaptagency
-                      </a>
-                    </p>
-                    <div className="flex-shrink-0 flex mt-1">
-                      <NextImage src={DKIcon} width={32} height={24} />
-                    </div>
-                  </div>
-                </h4>
-                <p className="mt-2">
-                  (W.I.P) Working with variaty of clients. Using Next.js,
-                  React.js, Vue.js, DatoCMS and tailwindcss.
-                </p>
-              </div>
-
-              <div>
-                <h4 className="w-full flex justify-between sm:text-xl text-lg">
-                  <span>2019 - 2020</span>
-                  <div className="flex flex-grow gap-4 sm:gap-3 justify-end items-start">
-                    <p className="text-right">
-                      Front-end part-time developer @{" "}
-                      <a
-                        href="https://adaptagency.com/"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="underline"
-                      >
-                        Adaptagency
-                      </a>
-                    </p>
-                    <div className="flex-shrink-0 flex mt-1">
-                      <NextImage src={LTIcon} width={32} height={24} />
-                    </div>
-                  </div>
-                </h4>
-                <p className="mt-2">
-                  (W.I.P) Working with variaty of clients. Using React.js,
-                  Redux.
-                </p>
-              </div>
-
-              <div>
-                <h4 className="w-full flex justify-between sm:text-xl text-lg">
-                  <span>2018, 2019 Summer</span>
-                  <span className="text-right">
-                    Front-end internships @{" "}
-                    <a
-                      href="https://adaptagency.com/"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="underline"
-                    >
-                      Adaptagency
-                    </a>
-                  </span>
-                </h4>
-                <p className="mt-2">
-                  During 2018 Summer I had a 3 month internship in Kaunas,
-                  Lithuania. I succeeded in learning React.js, SCSS, Redux,
-                  REST-ful API&#39;s and many other front-end tools. Moreover, I
-                  experienced working for different clients, applying Agile
-                  development methods, organizing my time and solving problems
-                  with other colleagues.
-                </p>
-                <p className="mt-2">
-                  In 2019 I had another 3 month internship in Copenhagen,
-                  Denmark. I expanded my knowledge about above-mentioned
-                  technologies and gained experience in working with variety of
-                  projects.
-                </p>
-              </div>
-            </div> */}
-          </>
-
-          {/* <>
-            <h2 className="flex justify-between items-center">
-              <div className="sm:text-2xl text-xl">My experience</div>
-              <div className="flex sm:text-xl">
-                <div
-                  className={clsx(
-                    "cursor-pointer pr-2 pl-3 pt-[5px] sm:rounded-l-xl rounded-l-md",
-                    {
-                      "text-white bg-black": view === "work",
-                    }
-                  )}
-                  onClick={() => setView("work")}
-                >
-                  Work
-                </div>
-                <div
-                  className={clsx(
-                    "cursor-pointer pl-2 pr-3 pt-[5px] ml-[-1px] sm:rounded-r-xl rounded-r-md",
-                    {
-                      "text-white bg-black": view === "education",
-                    }
-                  )}
-                  onClick={() => setView("education")}
-                >
-                  Education
-                </div>
-              </div>
-            </h2>
-            <div className="relative h-[550px] sm:h-[400px] overflow-y-scroll overflow-x-hidden mt-4">
-              <motion.div
-                className="absolute w-full flex flex-col gap-y-8"
-                animate={leftControl}
-                transition={{ type: "tween", ease: "easeInOut" }}
-                drag="x"
-                dragSnapToOrigin={true}
-                dragConstraints={{ left: -500, right: 0 }}
-                onDragEnd={(event, info) => {
-                  if (
-                    info.offset.x * info.velocity.x > 10000 &&
-                    info.offset.x < 0
-                  ) {
-                    setView("education");
-                  }
-                }}
-              >
-                <div>
-                  <h4 className="w-full flex gap-4 justify-between sm:text-xl text-lg">
-                    <span className="flex flex-grow basis-0">
-                      2020 - Present
-                    </span>
-                    <div className="flex flex-grow gap-4 sm:gap-3 justify-end items-start">
-                      <p className="text-right">
-                        Front-end part-time developer @{" "}
-                        <a
-                          href="https://adaptagency.com/"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="underline"
-                        >
-                          Adaptagency
-                        </a>
-                      </p>
-                      <div className="flex-shrink-0 flex mt-1">
-                        <NextImage src={DKIcon} width={32} height={24} />
-                      </div>
-                    </div>
-                  </h4>
-                  <p className="mt-2">
-                    (W.I.P) Working with variaty of clients. Using Next.js,
-                    React.js, Vue.js, DatoCMS and tailwindcss.
-                  </p>
-                </div>
-
-                <div>
-                  <h4 className="w-full flex justify-between sm:text-xl text-lg">
-                    <span>2019 - 2020</span>
-                    <div className="flex flex-grow gap-4 sm:gap-3 justify-end items-start">
-                      <p className="text-right">
-                        Front-end part-time developer @{" "}
-                        <a
-                          href="https://adaptagency.com/"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="underline"
-                        >
-                          Adaptagency
-                        </a>
-                      </p>
-                      <div className="flex-shrink-0 flex mt-1">
-                        <NextImage src={LTIcon} width={32} height={24} />
-                      </div>
-                    </div>
-                  </h4>
-                  <p className="mt-2">
-                    (W.I.P) Working with variaty of clients. Using React.js,
-                    Redux.
-                  </p>
-                </div>
-
-                <div>
-                  <h4 className="w-full flex justify-between sm:text-xl text-lg">
-                    <span>2018, 2019 Summer</span>
-                    <span className="text-right">
-                      Front-end internships @{" "}
-                      <a
-                        href="https://adaptagency.com/"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="underline"
-                      >
-                        Adaptagency
-                      </a>
-                    </span>
-                  </h4>
-                  <p className="mt-2">
-                    During 2018 Summer I had a 3 month internship in Kaunas,
-                    Lithuania. I succeeded in learning React.js, SCSS, Redux,
-                    REST-ful API&#39;s and many other front-end tools. Moreover,
-                    I experienced working for different clients, applying Agile
-                    development methods, organizing my time and solving problems
-                    with other colleagues.
-                  </p>
-                  <p className="mt-2">
-                    In 2019 I had another 3 month internship in Copenhagen,
-                    Denmark. I expanded my knowledge about above-mentioned
-                    technologies and gained experience in working with variety
-                    of projects.
-                  </p>
-                </div>
-              </motion.div>
-              <motion.div
-                className="absolute"
-                animate={rightControl}
-                transition={{ type: "tween", ease: "easeInOut" }}
-                drag="x"
-                dragDirectionLock
-                dragSnapToOrigin={true}
-                dragConstraints={{ left: 0, right: 500 }}
-                onDragEnd={(event, info) => {
-                  if (
-                    info.offset.x * info.velocity.x > 10000 &&
-                    info.offset.x > 0
-                  ) {
-                    setView("work");
-                  }
-                }}
-              >
-                <div>
-                  <h4 className="w-full flex gap-4 justify-between sm:text-xl text-lg">
-                    <span className="flex flex-grow basis-[140px]">
-                      2020 - 2023
-                    </span>
-                    <div className="flex flex-grow gap-4 sm:gap-3 justify-end items-start">
-                      <p className="text-right">
-                        BSc in Computer Science & Mathematics @{" "}
-                        <a
-                          href="https://ruc.dk/"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="underline"
-                        >
-                          Roskilde University
-                        </a>
-                      </p>
-                      <div className="flex-shrink-0 flex mt-1">
-                        <NextImage src={DKIcon} width={32} height={24} />
-                      </div>
-                    </div>
-                  </h4>
-                  <p className="mt-2">
-                    Learned Python and applied my knowledge in the field of Data
-                    Science. Became proficient in Java while creating a project
-                    in full-stack development course. Moreover, I acquired
-                    knowledge about JavaFX, agile development, OOP, database
-                    management and applying different algorithms (Prims,
-                    Kruskal, Dijkstra and A*).
-                  </p>
-                  <p className="mt-2">
-                    During my studies I wrote multiple projects and learned
-                    about Neural Network image recognition, Mathematical
-                    Modelling of various diseases. Moreover, I created a
-                    full-stack website using React.js, Node.js and implemented
-                    multiple restful api&#39;s including SMTP.
-                  </p>
-                </div>
-              </motion.div>
-            </div>
-          </> */}
-        </AnimatePresence>
+      <div className='mt-20'>
+        <ModularContent content={homePage.content as ModularContentRecords} />
       </div>
       <div>
-        <h2 className="sm:text-2xl text-xl mt-12 sm:mt-40 text-center">
+        <h2 className='sm:text-2xl text-xl mt-12 sm:mt-40 text-center'>
           What&apos;s Next?
         </h2>
-        <div className="text-lg sm:text-xl sm:mt-8 mt-4 flex justify-center gap-20 flex-col sm:flex-row">
+        <div className='text-lg sm:text-xl sm:mt-8 mt-4 flex justify-center gap-20 flex-col sm:flex-row'>
           <div className="relative after:absolute sm:after:h-full sm:after:top-0 sm:after:right-[-40px] sm:after:rotate-12 sm:after:w-[1px] after:bg-gray-300 after:w-2/3 after:h-[1px] after:bottom-[-40px] after:left-1/2 sm:after:left-auto after:-translate-x-1/2 before:content-['or'] before:text-gray-300 before:bg-white before:w-10 before:absolute before:bottom-[-54px] before:z-[1] before:left-1/2 before:-translate-x-1/2 before:text-center sm:before:right-[-58px] sm:before:top-1/2 sm:before:-translate-y-1/2 sm:before:left-auto sm:before:bottom-auto sm:before:translate-x-0">
-            <AnimatePresence threshold={0.6} position="left">
+            <AnimatePresence threshold={0.6} position='left'>
               <>
                 <p>
-                  Check my recent <span className="text-primary">projects</span>{" "}
+                  Check my recent <span className='text-primary'>projects</span>{' '}
                   💻
                 </p>
-                <div className="flex gap-3">
-                  <Link href="/projects" passHref>
+                <div className='flex gap-3'>
+                  <Link href='/projects' passHref>
                     <motion.a
                       onHoverStart={() => leftP.start({ x: 5 })}
                       onHoverEnd={() => leftP.start({ x: 0 })}
-                      className="underline cursor-pointer"
+                      className='underline cursor-pointer'
                     >
                       Read more
                     </motion.a>
                   </Link>
-                  <motion.div animate={leftP} className="flex">
+                  <motion.div animate={leftP} className='flex'>
                     <NextImage src={RightArrowIcon} />
                   </motion.div>
                 </div>
@@ -888,27 +197,27 @@ const Home = ({ data, data1 }: { data: MyQueryQuery; data1: MyQueryQuery }) => {
             </AnimatePresence>
           </div>
           <div>
-            <AnimatePresence position="right" threshold={0.6}>
+            <AnimatePresence position='right' threshold={0.6}>
               <>
-                <p className="mt-0 sm:mt-24">
-                  I would love to hear about your{" "}
-                  <span className="text-primary">ideas</span> and{" "}
-                  <span className="text-primary">projects</span>. Let&#39;s talk
+                <p className='mt-0 sm:mt-24'>
+                  I would love to hear about your{' '}
+                  <span className='text-primary'>ideas</span> and{' '}
+                  <span className='text-primary'>projects</span>. Let&#39;s talk
                   👋
                 </p>
-                <div className="flex gap-3">
+                <div className='flex gap-3'>
                   {/* <Link href="/email" passHref> */}
                   <motion.a
-                    href="mailto:hello@rokaskasperavicius.dev"
-                    target="_blank"
+                    href='mailto:hello@rokaskasperavicius.dev'
+                    target='_blank'
                     onHoverStart={() => rightP.start({ x: 5 })}
                     onHoverEnd={() => rightP.start({ x: 0 })}
-                    className="underline cursor-pointer"
+                    className='underline cursor-pointer'
                   >
                     Write to me
                   </motion.a>
                   {/* </Link> */}
-                  <motion.div animate={rightP} className="flex">
+                  <motion.div animate={rightP} className='flex'>
                     <NextImage src={RightArrowIcon} />
                   </motion.div>
                 </div>
@@ -918,49 +227,15 @@ const Home = ({ data, data1 }: { data: MyQueryQuery; data1: MyQueryQuery }) => {
         </div>
       </div>
     </main>
-  );
-};
-
-const variants = {
-  initial: {
-    x: 0,
-  },
-  start: {
-    opacity: 0,
-  },
-};
-
-// const HOMEPAGE_QUERY = `query MyQuery {
-//   allUploads(filter: {id: {eq: "7701728"}}) {
-//     responsiveImage(imgixParams: { fit: crop, w: 500, h: 600, auto: format }) {
-//         srcSet
-//         webpSrcSet
-//         sizes
-//         src
-//         width
-//         height
-//         aspectRatio
-//         alt
-//         title
-//         base64
-//       }
-//   }
-// }`;
+  )
+}
 
 export const getStaticProps = async () => {
-  const data = await request({
-    query: MyQuery,
-    variables: { limit: 10 },
-  } as Props);
-
-  const data1 = await request({
-    query: MyQuery1,
-    variables: { limit: 10 },
-  } as Props);
+  const data = await request({ query: getHomePage })
 
   return {
-    props: { data, data1 },
-  };
-};
+    props: { data },
+  }
+}
 
-export default Home;
+export default Home
