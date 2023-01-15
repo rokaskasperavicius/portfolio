@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header className="transition p-4 relative flex justify-end after:absolute after:bottom-0 after:left-0 after:h-[1px] after:bg-gray-300 test">
+      <header className="transition p-4 relative flex justify-end after:absolute after:bottom-0 after:left-0 after:h-[1px] after:bg-gray-200 test">
         <div className="flex gap-3">
           <Link href="/">
             <motion.a
@@ -85,7 +85,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           </motion.div>
         </div>
       </header>
-      <motion.div
+      {/* <motion.div
         className="flex-1"
         key={route}
         initial="initial"
@@ -103,9 +103,9 @@ function MyApp({ Component, pageProps }: AppProps) {
             opacity: 1,
           },
         }}
-      >
-        <Component {...pageProps} />
-      </motion.div>
+      > */}
+      <Component {...pageProps} />
+      {/* </motion.div> */}
 
       <footer className={styles.footer}>
         {/* <a

@@ -258,10 +258,32 @@ const Home = ({ data, data1 }: { data: MyQueryQuery; data1: MyQueryQuery }) => {
         <div className="flex flex-col-reverse lg:flex-row items-center lg:items-stretch justify-center lg:gap-6 gap-14 mt-[-80px] sm:mt-8 lg:mt-0">
           <div className="flex justify-between text-2xl sm:text-3xl flex-col sm:flex-row lg:flex-col gap-10 lg:gap-0 items-start sm:items-end lg:items-start">
             <div className="hidden lg:block"></div>
-            <div
+            <motion.div
               id="hero-text"
               className="bg-[#fffdfc] mr-[-100px] z-10 rounded-br p-10 pb-40"
+              // className="flex-1"
+              // key={route}
+              initial="initial"
+              animate="animate"
+              transition={{
+                duration: 0.5,
+                delay: 0.5,
+              }}
+              variants={{
+                initial: {
+                  x: -50,
+                  opacity: 0,
+                },
+                animate: {
+                  x: 0,
+                  opacity: 1,
+                },
+              }}
             >
+              {/* <div
+              id="hero-text"
+              className="bg-[#fffdfc] mr-[-100px] z-10 rounded-br p-10 pb-40"
+            > */}
               <div className="flex gap-[10px]">
                 <div>I am Rokas - </div>
                 <div className="relative">
@@ -277,10 +299,11 @@ const Home = ({ data, data1 }: { data: MyQueryQuery; data1: MyQueryQuery }) => {
               </div>
               <div className="text-primary">front-end developer</div>
               <div>
-                with <span className="text-primary">3+ years </span> of work
+                with <span className="text-primary">4+ years </span> of work
                 experience.
               </div>
-            </div>
+              {/* </div> */}
+            </motion.div>
             <div className="flex gap-4">
               <motion.div
                 whileHover={{
@@ -364,13 +387,41 @@ const Home = ({ data, data1 }: { data: MyQueryQuery; data1: MyQueryQuery }) => {
               </motion.div> */}
             </div>
           </div>
-          <div id="hero-image" className="hidden sm:block">
+          {/* <div id="hero-image" className="hidden sm:block">
             <Image
               usePlaceholder={false}
               data={data.allUploads[0].responsiveImage as ResponsiveImageType}
               pictureClassName="rounded-xl"
             />
-          </div>
+          </div> */}
+
+          <motion.div
+            id="hero-image"
+            className="hidden sm:block"
+            // className="flex-1"
+            // key={route}
+            initial="initial"
+            animate="animate"
+            transition={{
+              duration: 0.5,
+            }}
+            variants={{
+              initial: {
+                x: -50,
+                opacity: 0,
+              },
+              animate: {
+                x: 0,
+                opacity: 1,
+              },
+            }}
+          >
+            <Image
+              usePlaceholder={false}
+              data={data.allUploads[0].responsiveImage as ResponsiveImageType}
+              pictureClassName="rounded-xl"
+            />
+          </motion.div>
         </div>
       </div>
       <div className="mt-20">
