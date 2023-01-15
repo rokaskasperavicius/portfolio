@@ -221,7 +221,7 @@ const Home = ({ data, data1 }: { data: MyQueryQuery; data1: MyQueryQuery }) => {
 
   return (
     <main className="relative max-w-7xl m-auto">
-      <div className="text-xs none">
+      {/* <div className="text-xs displ">
         {expOptions.length > 0 &&
           expOptionsCorner &&
           exp.map((e, index) => {
@@ -252,7 +252,7 @@ const Home = ({ data, data1 }: { data: MyQueryQuery; data1: MyQueryQuery }) => {
               </>
             );
           })}
-      </div>
+      </div> */}
 
       <div className="h-[calc(100vh-56px)] flex flex-col justify-center">
         <div className="flex flex-col-reverse lg:flex-row items-center lg:items-stretch justify-around lg:gap-6 gap-14 mt-[-80px] sm:mt-8 lg:mt-0">
