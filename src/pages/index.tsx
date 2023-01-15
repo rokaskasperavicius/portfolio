@@ -21,8 +21,11 @@ import { useInView } from "react-intersection-observer";
 
 import { AnimatePresence } from "../components/AnimatePresence";
 
-import { MyQuery } from "../test";
+import { MyQuery, MyQuery1 } from "../test";
 import { MyQueryQuery } from "../generated/graphql";
+
+import { Allotment } from "allotment";
+import "allotment/dist/style.css";
 
 type Props = {
   query: any;
@@ -71,7 +74,7 @@ export function request({ query, variables, preview }: Props) {
   return client.request(query, variables);
 }
 
-const Home = ({ data }: { data: MyQueryQuery }) => {
+const Home = ({ data, data1 }: { data: MyQueryQuery; data1: MyQueryQuery }) => {
   const [view, setView] = useState<"work" | "education">("work");
 
   const [expOptions, setExpOptions] = useState<ExpOption[]>([]);
@@ -208,11 +211,17 @@ const Home = ({ data }: { data: MyQueryQuery }) => {
     }
     // }
   }, []);
-  console.log(expOptions);
+  console.log(data1);
+
+  const Block = ({ text }: { text: string }) => (
+    <span className="bg-[#ff5208] text-white px-2 py-1 min-w-[80px] flex items-center justify-center rounded-md">
+      {text}
+    </span>
+  );
 
   return (
     <main className="relative max-w-7xl m-auto">
-      <div className="text-xs">
+      <div className="text-xs none">
         {expOptions.length > 0 &&
           expOptionsCorner &&
           exp.map((e, index) => {
@@ -361,60 +370,197 @@ const Home = ({ data }: { data: MyQueryQuery }) => {
           </div>
         </div>
       </div>
-      <div>
-        <AnimatePresence position="left" className="lg:w-2/3">
+      <div className="mt-20">
+        <AnimatePresence position="left" className="">
           <>
-            <h2 className="sm:text-2xl text-xl">About me</h2>
-            <p className="sm:mt-4 mt-2">
-              My full name is Rokas Kasperavicius. I am 21 year old Lithuanian
-              who is currently studying Computer Science & Mathematics Bachelor
-              at{" "}
-              <a
-                href="https://ruc.dk/"
-                target="_blank"
-                rel="noreferrer"
-                className="underline"
-              >
-                Roskilde University
-              </a>{" "}
-              in Denmark. Parallel to doing the studies I have been working as a
-              part-time front-end developer at{" "}
-              <a
-                href="https://adaptagency.com/"
-                target="_blank"
-                rel="noreferrer"
-                className="underline"
-              >
-                Adaptagency
-              </a>{" "}
-              for over a year.
-            </p>
-            <p className="mt-2">Technologies I am experienced with:</p>
+            <h2 className="sm:text-2xl text-xl flex gap-1 justify-center">
+              About Me <span className="text-3xl block">👨</span>
+            </h2>
+            <div className="flex justify-between gap-6 mt-4">
+              <Image
+                className="flex-shrink-0 self-start"
+                usePlaceholder={false}
+                data={
+                  data1.allUploads[0].responsiveImage as ResponsiveImageType
+                }
+                pictureClassName="rounded"
+              />
+              <div className="text-lg border-r border-b border-solid border-gray-300 pr-2 rounded">
+                <p className="sm:mt-4 mt-2">
+                  My full name is Rokas Kasperavicius. I am 21 year old
+                  Lithuanian who is currently studying Computer Science &
+                  Mathematics Bachelor at{" "}
+                  <a
+                    href="https://ruc.dk/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline"
+                  >
+                    Roskilde University
+                  </a>{" "}
+                  in Denmark. Parallel to doing the studies I have been working
+                  as a part-time front-end developer at{" "}
+                  <a
+                    href="https://adaptagency.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline"
+                  >
+                    Adaptagency
+                  </a>{" "}
+                  for over a year.
+                </p>
+                <p className="my-2">Technologies I am experienced with:</p>
 
-            <ul className="list-disc list-inside inline-grid gap-x-8 grid-cols-[auto_auto] mt-2">
-              <li>React.js</li>
-              <li>Typescript</li>
-              <li>Next.js</li>
-              <li>HTML / CSS / Javascript</li>
-              <li>Node.js</li>
-              <li>Express.js</li>
-              <li>PostgreSQL</li>
-              <li>SQLite</li>
-              <li>Java</li>
-              <li>F#</li>
-              <li>C#</li>
-              <li>Python</li>
-              <li>C++</li>
-              <li>DatoCMS</li>
-              <li>Postico</li>
-            </ul>
+                {/* <ul className="list-disc list-inside inline-grid gap-x-8 grid-cols-[auto_auto] mt-2">
+                  <li>React.js</li>
+                  <li>Typescript</li>
+                  <li>Next.js</li>
+                  <li>HTML / CSS / Javascript</li>
+                  <li>Node.js</li>
+                  <li>Express.js</li>
+                  <li>PostgreSQL</li>
+                  <li>SQLite</li>
+                  <li>Java</li>
+                  <li>F#</li>
+                  <li>C#</li>
+                  <li>Python</li>
+                  <li>C++</li>
+                  <li>DatoCMS</li>
+                  <li>Postico</li>
+                </ul> */}
+                <div className="flex gap-1">
+                  <Block text="React.js" />
+                  <Block text="Typescript" />
+                  <Block text="Next.js" />
+                  <Block text="Node.js" />
+                  <Block text="PostgreSQL" />
+                  <Block text="Java" />
+                  <Block text="DatoCMS" />
+                </div>
+              </div>
+            </div>
           </>
         </AnimatePresence>
-        <AnimatePresence
-          position="right"
-          className="ml-auto mt-12 sm:mt-8 lg:w-2/3 sm:rounded-2xl sm:border sm:border-black sm:p-5 sm:shadow-right-full"
-        >
+        <AnimatePresence position="right" className="ml-auto mt-24">
           <>
+            <h2 className="sm:text-2xl text-xl flex gap-1 justify-center mb-8">
+              Where I&apos;ve Worked <span className="text-3xl block">👨‍💻</span>
+            </h2>
+
+            <div className="text-lg border-l border-b border-solid border-gray-300 pl-6 pb-6 rounded space-y-6">
+              <div>
+                <h3>
+                  Front-end Developer @{" "}
+                  <span className="underline">Adaptagency</span>
+                </h3>
+                <p className="text-base text-gray-400">2019 - Present</p>
+                <p className="text-base mt-2">
+                  Creating mobile-first solutions for variety of companies.
+                </p>
+              </div>
+
+              <div className="h-[1px] w-3/4 bg-gray-200" />
+
+              <div>
+                <h3>
+                  Front-end Internships @{" "}
+                  <span className="underline">Adaptagency</span>
+                </h3>
+                <p className="text-base text-gray-400">2018 - 2019</p>
+                <p className="text-base mt-2">
+                  Learning front-end development from experienced engineers.
+                </p>
+              </div>
+            </div>
+
+            {/* <div className="text-lg border-l border-b border-solid border-gray-300 pl-6 pb-6 rounded">
+              <div>
+                <h4 className="w-full flex gap-4 justify-between sm:text-xl text-lg">
+                  <span className="flex flex-grow basis-0">2020 - Present</span>
+                  <div className="flex flex-grow gap-4 sm:gap-3 justify-end items-start">
+                    <p className="text-right">
+                      Front-end part-time developer @{" "}
+                      <a
+                        href="https://adaptagency.com/"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline"
+                      >
+                        Adaptagency
+                      </a>
+                    </p>
+                    <div className="flex-shrink-0 flex mt-1">
+                      <NextImage src={DKIcon} width={32} height={24} />
+                    </div>
+                  </div>
+                </h4>
+                <p className="mt-2">
+                  (W.I.P) Working with variaty of clients. Using Next.js,
+                  React.js, Vue.js, DatoCMS and tailwindcss.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="w-full flex justify-between sm:text-xl text-lg">
+                  <span>2019 - 2020</span>
+                  <div className="flex flex-grow gap-4 sm:gap-3 justify-end items-start">
+                    <p className="text-right">
+                      Front-end part-time developer @{" "}
+                      <a
+                        href="https://adaptagency.com/"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline"
+                      >
+                        Adaptagency
+                      </a>
+                    </p>
+                    <div className="flex-shrink-0 flex mt-1">
+                      <NextImage src={LTIcon} width={32} height={24} />
+                    </div>
+                  </div>
+                </h4>
+                <p className="mt-2">
+                  (W.I.P) Working with variaty of clients. Using React.js,
+                  Redux.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="w-full flex justify-between sm:text-xl text-lg">
+                  <span>2018, 2019 Summer</span>
+                  <span className="text-right">
+                    Front-end internships @{" "}
+                    <a
+                      href="https://adaptagency.com/"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="underline"
+                    >
+                      Adaptagency
+                    </a>
+                  </span>
+                </h4>
+                <p className="mt-2">
+                  During 2018 Summer I had a 3 month internship in Kaunas,
+                  Lithuania. I succeeded in learning React.js, SCSS, Redux,
+                  REST-ful API&#39;s and many other front-end tools. Moreover, I
+                  experienced working for different clients, applying Agile
+                  development methods, organizing my time and solving problems
+                  with other colleagues.
+                </p>
+                <p className="mt-2">
+                  In 2019 I had another 3 month internship in Copenhagen,
+                  Denmark. I expanded my knowledge about above-mentioned
+                  technologies and gained experience in working with variety of
+                  projects.
+                </p>
+              </div>
+            </div> */}
+          </>
+
+          {/* <>
             <h2 className="flex justify-between items-center">
               <div className="sm:text-2xl text-xl">My experience</div>
               <div className="flex sm:text-xl">
@@ -568,7 +714,7 @@ const Home = ({ data }: { data: MyQueryQuery }) => {
                     </span>
                     <div className="flex flex-grow gap-4 sm:gap-3 justify-end items-start">
                       <p className="text-right">
-                        Computer Science & Mathematics @{" "}
+                        BSc in Computer Science & Mathematics @{" "}
                         <a
                           href="https://ruc.dk/"
                           target="_blank"
@@ -601,12 +747,12 @@ const Home = ({ data }: { data: MyQueryQuery }) => {
                 </div>
               </motion.div>
             </div>
-          </>
+          </> */}
         </AnimatePresence>
       </div>
       <div>
-        <h2 className="sm:text-2xl text-xl mt-12 sm:mt-16 text-center">
-          Whats next?
+        <h2 className="sm:text-2xl text-xl mt-12 sm:mt-40 text-center">
+          What&apos;s Next?
         </h2>
         <div className="text-lg sm:text-xl sm:mt-8 mt-4 flex justify-center gap-20 flex-col sm:flex-row">
           <div className="relative after:absolute sm:after:h-full sm:after:top-0 sm:after:right-[-40px] sm:after:rotate-12 sm:after:w-[1px] after:bg-gray-300 after:w-2/3 after:h-[1px] after:bottom-[-40px] after:left-1/2 sm:after:left-auto after:-translate-x-1/2 before:content-['or'] before:text-gray-300 before:bg-white before:w-10 before:absolute before:bottom-[-54px] before:z-[1] before:left-1/2 before:-translate-x-1/2 before:text-center sm:before:right-[-58px] sm:before:top-1/2 sm:before:-translate-y-1/2 sm:before:left-auto sm:before:bottom-auto sm:before:translate-x-0">
@@ -698,8 +844,14 @@ export const getStaticProps = async () => {
     query: MyQuery,
     variables: { limit: 10 },
   } as Props);
+
+  const data1 = await request({
+    query: MyQuery1,
+    variables: { limit: 10 },
+  } as Props);
+
   return {
-    props: { data },
+    props: { data, data1 },
   };
 };
 

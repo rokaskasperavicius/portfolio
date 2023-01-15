@@ -21,6 +21,27 @@ export const MyQuery = gql`
   }
 `;
 
+export const MyQuery1 = gql`
+  query MyQuery1 {
+    allUploads(filter: { id: { eq: "24875464" } }) {
+      responsiveImage(
+        imgixParams: { fit: crop, w: 250, h: 325, auto: format }
+      ) {
+        srcSet
+        webpSrcSet
+        sizes
+        src
+        width
+        height
+        aspectRatio
+        alt
+        title
+        base64
+      }
+    }
+  }
+`;
+
 export const GetProductsQuery = gql`
   query GetProductsQuery($locale: SiteLocale) {
     allProjects(locale: $locale) {

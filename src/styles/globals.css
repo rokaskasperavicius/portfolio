@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --separator-border: #000 !important;
+}
+
+body {
+  background-color: #fffdfc;
+}
+
 @font-face {
   font-family: "ADELIA";
   src: url("Biotif-Regular.ttf");
@@ -123,7 +131,7 @@ a {
 
   @keyframes word {
     0% {
-      filter: blur(4px);
+      filter: blur(1px);
       opacity: 0;
     }
     5%,
@@ -132,11 +140,11 @@ a {
       opacity: 1;
     }
     20% {
-      filter: blur(4px);
+      filter: blur(1px);
       opacity: 0;
     }
     100% {
-      filter: blur(4px);
+      filter: blur(1px);
       opacity: 0;
     }
   }

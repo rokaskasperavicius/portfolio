@@ -56,7 +56,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               Projects
             </motion.a>
           </Link>
-          {locales?.map((l, i) => {
+          {/* {locales?.map((l, i) => {
             return (
               <motion.div
                 key={i}
@@ -76,7 +76,13 @@ function MyApp({ Component, pageProps }: AppProps) {
                 </Link>
               </motion.div>
             );
-          })}
+          })} */}
+          <motion.div
+            animate={{ y: [-20, 0], opacity: [0, 1] }}
+            transition={{ delay: 2 }}
+          >
+            EN
+          </motion.div>
         </div>
       </header>
       <motion.div
