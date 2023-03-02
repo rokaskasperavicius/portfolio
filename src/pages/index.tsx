@@ -42,7 +42,7 @@ const Home = ({ data }: Props) => {
   if (!homePage || !heroImage) return null
 
   return (
-    <main className='relative after:absolute after:right-0 after:top-0 after:w-[1px] after:bg-gray-200 main-index before:absolute before:top-0 before:left-0 before:h-[1px] before:bg-gray-200 '>
+    <main className='relative after:absolute after:right-0 after:top-0 after:w-[1px] after:bg-gray-200 main-index before:absolute before:top-0 before:left-0 before:h-[1px] before:bg-gray-200'>
       <div className='h-[calc(100vh-56px)] flex flex-col justify-center'>
         <div className='flex flex-col-reverse lg:flex-row items-center lg:items-stretch justify-center lg:gap-6 gap-14 mt-[-80px] sm:mt-8 lg:mt-0'>
           <div className='flex justify-between text-2xl sm:text-3xl flex-col sm:flex-row lg:flex-col gap-10 lg:gap-0 items-start sm:items-end lg:items-start'>
